@@ -1,0 +1,16 @@
+@import './variables.scss';
+@import './libs/normalize.scss';
+@import './components/all.scss';
+
+body {
+  background-color: $background;
+}
+.wrapper {
+  width: 791px;
+  margin: 0 auto;
+}
+.content {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 15px;
+}

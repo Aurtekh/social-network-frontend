@@ -1,0 +1,41 @@
+@import '../variables';
+
+.header {
+  margin: 0 auto;
+  width: 791px;
+  background: $blue;
+  color: #e8eff7;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+
+  &__logo {
+    height: 20px;
+  }
+  &__wrapper {
+    display: flex;
+    height: 40px;
+    padding: 0 15px;
+    justify-content: space-between;
+    align-items: center;
+
+    &__left,
+    &__right {
+      display: flex;
+      gap: 10px;
+      justify-content: space-around;
+    }
+  }
+  &__nav {
+    cursor: pointer;
+
+    &__link,
+    &:last-child {
+      display: block;
+      color: #e8eff7;
+      padding: 9.5px 4px;
+    }
+    &:hover {
+      background: #6484a5;
+    }
+  }
+}
