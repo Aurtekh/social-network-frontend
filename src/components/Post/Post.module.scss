@@ -1,0 +1,44 @@
+$blue: #517296;
+
+.root {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  grid-template-rows: 1fr;
+  grid-column-gap: 10px;
+}
+
+.imgAvatar {
+  width: 67px;
+  height: 67px;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.username {
+  font-weight: 600;
+  color: #59748f;
+}
+
+.imgPost {
+  width: 100%;
+  max-height: 400px;
+}
+.wrapperInfoPost {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.text {
+  color: black;
+}
+.count {
+  font-weight: 600;
+  color: #8694ae;
+}
+.textGray {
+  color: #b1b6b8;
+}

@@ -1,7 +1,143 @@
 @import '../variables';
 
 .home {
-  width: 631px;
-  height: 300px;
-  background: skyblue;
+  max-width: 633px;
+  border: 1px solid #e3e4e8;
+
+  &__headerName {
+    padding: 10px;
+    background: #e9ecf1;
+    font-weight: 600;
+    color: #59748f;
+  }
+
+  &__wrapperGrid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 10px;
+    padding: 10px;
+  }
+
+  &__wrapperFlex__left,
+  &__wrapperFlex__right {
+    display: flex;
+    flex-direction: column;
+    // align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+
+  &__wrapperAvatar {
+    width: 200px;
+    height: 300px;
+  }
+
+  &__avatar {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__name {
+    font-weight: 600;
+    color: $blue;
+  }
+
+  &__line {
+    border-bottom: 1px solid #f0efee;
+  }
+
+  &__wrapperInfo {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: repeat(4, 1fr);
+    grid-column-gap: 10px;
+    grid-row-gap: 5px;
+  }
+
+  &__aboutMe {
+    color: #898a8a;
+  }
+  &__aboutMeInfo {
+    color: $blue;
+  }
+
+  &__photo,
+  &__posts {
+    display: flex;
+    justify-content: space-between;
+    background: #dee5eb;
+    padding: 6px 15px;
+
+    &__count {
+      font-weight: 600;
+      color: #59748f;
+    }
+    &__openAll {
+      cursor: pointer;
+      font-weight: 600;
+      color: #a0adbd;
+
+      &:hover {
+        color: $blue;
+      }
+    }
+  }
+  &__friends {
+    padding: 6px 6px;
+    background: #dee5eb;
+    font-weight: 600;
+    color: #59748f;
+
+    &__count {
+      margin-top: -9px;
+      padding: 3px 6px;
+      background: #f0f0f0;
+      color: #6f7075;
+    }
+
+    &__listWrapper {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      grid-column-gap: 8px;
+      grid-row-gap: 8px;
+
+      &__container {
+        text-align: center;
+        color: $blue;
+      }
+    }
+
+    &__avatar {
+      width: 100%;
+      max-height: 61px;
+    }
+  }
+  &__photoListWrapper {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 3px;
+    grid-row-gap: 0px;
+    justify-items: center;
+
+    &__list {
+      height: 134px;
+    }
+  }
+
+  &__sendMessage,
+  &__addFriend {
+    cursor: pointer;
+    background: #6383a9;
+    padding: 6px 0px;
+    border: 6px solid #f0f0f0;
+    color: #f0f9f8;
+    transition: 0.1s;
+
+    &:hover {
+      border: 6px solid #6383a9;
+    }
+  }
 }

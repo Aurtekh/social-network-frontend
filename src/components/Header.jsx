@@ -7,8 +7,10 @@ const Header = () => {
     <header className="header">
       <div className="header__wrapper">
         <div className="header__wrapper__left">
-          <img className="header__logo" src={logo} alt="Олдтакте" />
-          <input type="search" placeholder="поиск людей"></input>
+          <Link to={'/'} style={{ display: 'block', height: '20px' }}>
+            <img className="header__logo" src={logo} alt="Олдтакте" />
+          </Link>
+          <input type="search" placeholder="Поиск"></input>
         </div>
         <div className="header__wrapper__right">
           <div className="header__nav">

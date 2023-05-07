@@ -7,16 +7,24 @@ const Sidebar = () => {
       <div className="sidebar__menu">
         <ul>
           <li>
-            <Link to={'/'}>Моя страница</Link>
+            <Link to={'/'} className="sidebar__link">
+              Моя страница
+            </Link>
           </li>
           <li>
-            <Link to={'/friends'}>Мои друзья</Link>
+            <Link to={'/friends'} className="sidebar__link">
+              Мои друзья
+            </Link>
           </li>
           <li>
-            <Link to={'/'}>Мои сообщения</Link>
+            <Link to={'/'} className="sidebar__link">
+              Мои сообщения
+            </Link>
           </li>
           <li>
-            <Link to={'/'}>Мои новости</Link>
+            <Link to={'/'} className="sidebar__link">
+              Мои новости
+            </Link>
           </li>
         </ul>
       </div>
@@ -24,7 +32,9 @@ const Sidebar = () => {
       <div className="sidebar__menu">
         <ul>
           <li>
-            <Link to={'/'}>Ред. профиль</Link>
+            <Link to={'/'} className="sidebar__link">
+              Ред. профиль
+            </Link>
           </li>
         </ul>
       </div>
