@@ -1,0 +1,75 @@
+@import '../variables';
+
+.search {
+  max-width: 633px;
+  border: 1px solid #e3e4e8;
+  display: flex;
+  flex-direction: column;
+  max-width: 633px;
+  border: 1px solid #e3e4e8;
+
+  &__container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 10px;
+    gap: 10px;
+    width: 100%;
+    height: 50px;
+    background: #f7f7f7;
+  }
+
+  &__nav {
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 2px;
+    background: $blue;
+    color: #fff;
+    font-weight: 600;
+  }
+
+  &__peopleFound {
+    padding: 10px 10px 6px 10px;
+    color: $blue;
+    font-weight: 600;
+  }
+
+  &__searchField {
+    width: 100%;
+  }
+
+  &__name {
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #59748f;
+  }
+
+  &__containerFriendList {
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+    justify-items: start;
+  }
+
+  &__avatar {
+    width: 100px;
+    height: 100px;
+  }
+
+  &__button {
+    cursor: pointer;
+    width: 150px;
+    height: 20px;
+    color: #fff;
+    background: $blue;
+    border: none;
+    border-radius: 2px;
+
+    &:hover {
+      filter: brightness(110%);
+    }
+  }
+}

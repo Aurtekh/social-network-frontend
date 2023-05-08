@@ -14,10 +14,8 @@ export const Post = ({ id, text, user, createdAt, viewsCount, commentsCount }) =
         <div className={styles.wrapperInfoPost}>
           <div className={styles.textGray}>{createdAt}</div>
           <div className={styles.wrapperInfoPost}>
-            <div className={styles.textGray}>
-              <span className={styles.count}>{viewsCount}</span> просмотров
-            </div>
-            <div className={styles.textGray}>
+            <div className={styles.comment}>Комментировать</div>
+            <div className={styles.Like}>
               <span className={styles.count}>{commentsCount}</span> мне нравится
             </div>
           </div>

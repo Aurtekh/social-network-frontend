@@ -42,3 +42,19 @@ $blue: #517296;
 .textGray {
   color: #b1b6b8;
 }
+.comment {
+  cursor: pointer;
+  color: $blue;
+
+  &:hover {
+    filter: brightness(50%);
+  }
+}
+.Like {
+  cursor: pointer;
+  color: #b1b6b8;
+
+  &:hover {
+    color: $blue;
+  }
+}
