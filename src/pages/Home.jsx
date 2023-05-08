@@ -99,7 +99,7 @@ const Home = () => {
         <div className="home__wrapperFlex__right">
           <div className="home__name">Даниил Ермолович</div>
           <div className="home__status">Укажите статус</div>
-          <div className="home__line"></div>
+          <div className="line-gray"></div>
           <div className="home__wrapperInfo">
             <div className="home__aboutMe">День рождения:</div>
             <div className="home__aboutMeInfo">19.10.1997</div>

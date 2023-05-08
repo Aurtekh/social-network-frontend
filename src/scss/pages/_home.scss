@@ -43,10 +43,6 @@
     color: $blue;
   }
 
-  &__line {
-    border-bottom: 1px solid #f0efee;
-  }
-
   &__wrapperInfo {
     display: grid;
     grid-template-columns: 1fr 2fr;

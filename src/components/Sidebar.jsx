@@ -28,7 +28,7 @@ const Sidebar = () => {
           </li>
         </ul>
       </div>
-      <div className="sidebar__line"></div>
+      <div className="line-gray"></div>
       <div className="sidebar__menu">
         <ul>
           <li>

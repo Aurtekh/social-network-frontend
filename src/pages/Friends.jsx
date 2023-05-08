@@ -45,12 +45,12 @@ const Friends = () => {
           Заявки в друзья 1
         </div>
       </div>
-      <div className="friends__line"></div>
+      <div className="line"></div>
       <div className="friends__containerSearch">
         <input className="friends__search" placeholder="Начните вводить имя друга"></input>
         <button className="friends__button">Найти друзей</button>
       </div>
-      <div className="friends__line-gray"></div>
+      <div className="line-gray"></div>
       <div className="friends__wrapper">
         <div>
           {friendsList.map((obj, index) => {
@@ -64,7 +64,7 @@ const Friends = () => {
                   </div>
                   <div>Удалить из друзей</div>
                 </div>
-                <div className="friends__line-gray"></div>
+                <div className="line-gray"></div>
               </div>
             );
           })}
