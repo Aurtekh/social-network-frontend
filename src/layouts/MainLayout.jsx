@@ -9,7 +9,7 @@ const MainLayout = () => {
 
   return (
     <div className="wrapper">
-      <Header />
+      <Header pathname={pathname} />
       <div className="content">
         {pathname === '/auth' ? <Login /> : <Sidebar />}
         <Outlet />
