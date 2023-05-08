@@ -17,3 +17,15 @@ body {
   grid-column-gap: 10px;
   padding: 0 15px;
 }
+.line {
+  border-bottom: 1px solid #93a7bc;
+
+  &-gray {
+    border-bottom: 1px solid #e0e5e9;
+
+    &Margin {
+      border-bottom: 1px solid #e0e5e9;
+      margin-top: 5px;
+    }
+  }
+}

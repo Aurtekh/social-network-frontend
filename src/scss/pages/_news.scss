@@ -1,0 +1,71 @@
+@import '../variables';
+
+.news {
+  max-width: 633px;
+  border: 1px solid #e3e4e8;
+  display: flex;
+  flex-direction: column;
+  max-width: 633px;
+  border: 1px solid #e3e4e8;
+
+  &__container {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 0 10px;
+  }
+
+  &__tab {
+    cursor: pointer;
+    margin-top: 6px;
+    padding: 5px;
+    border-radius: 2px;
+    background: $blue;
+    color: #fff;
+  }
+
+  &__nav {
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 2px;
+    color: $blue;
+  }
+
+  &__containerNav {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 10px;
+    gap: 10px;
+    width: 100%;
+    height: 50px;
+    background: #f7f7f7;
+  }
+
+  .active {
+    background: $blue;
+    color: #fff;
+  }
+
+  &__wrapperFlex {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5px;
+    padding: 4px 10px;
+    margin-top: 16px;
+  }
+
+  &__postSort {
+    cursor: pointer;
+  }
+
+  .activeSort {
+    color: $blue;
+    font-weight: 600;
+  }
+
+  &__containerList {
+    padding: 10px;
+  }
+}
