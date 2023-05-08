@@ -1,1 +1,39 @@
 @import '../variables';
+
+.auth {
+  max-width: 633px;
+  border: 1px solid #e3e4e8;
+
+  &__headerName {
+    padding: 10px;
+    background: #e9ecf1;
+    font-weight: 600;
+    color: #59748f;
+  }
+
+  &__wrapper {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  &__text {
+    margin-top: 15px;
+    margin-bottom: 4px;
+    color: $blue;
+    font-weight: 600;
+  }
+
+  &__container {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  &__infoList {
+    margin-top: 15px;
+  }
+}
