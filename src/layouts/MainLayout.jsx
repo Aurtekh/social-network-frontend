@@ -2,13 +2,16 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
+import { Login } from '../components/Login';
 
 const MainLayout = () => {
+  const pathname = window.location.pathname; //нужно пофиксить перерисовку
+
   return (
     <div className="wrapper">
       <Header />
       <div className="content">
-        <Sidebar />
+        {pathname === '/auth' ? <Login /> : <Sidebar />}
         <Outlet />
       </div>
     </div>

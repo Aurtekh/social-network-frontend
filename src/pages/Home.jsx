@@ -88,7 +88,7 @@ const Home = () => {
           <div className="home__friends__listWrapper">
             {friends.map((obj, index) => {
               return (
-                <div className="home__friends__listWrapper__container">
+                <div className="home__friends__listWrapper__container" key={index}>
                   <img className="home__friends__avatar" src={obj.avatar} alt="avatar"></img>
                   <div>{obj.username}</div>
                 </div>

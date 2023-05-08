@@ -14,12 +14,12 @@ const Header = () => {
         </div>
         <div className="header__wrapper__right">
           <div className="header__nav">
-            <Link to={'/'} className="header__nav__link">
+            <Link to={'/search'} className="header__nav__link">
               люди
             </Link>
           </div>
           <div className="header__nav">
-            <Link to={'/'} className="header__nav__link">
+            <Link to={'/news'} className="header__nav__link">
               новости
             </Link>
           </div>
