@@ -4,6 +4,10 @@ import avatar from '../assets/img/avatarMe.jpg';
 const Friends = () => {
   const [tabIndex, setTabIndex] = React.useState('0');
 
+  React.useEffect(() => {
+    document.title = 'Друзья Даниила Ермоловича';
+  }, []);
+
   const friendsList = [
     {
       username: 'Даниил Ермолович',

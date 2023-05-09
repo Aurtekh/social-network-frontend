@@ -4,6 +4,11 @@ import { Post } from '../components/Post';
 export const News = () => {
   const [navIndex, setNavIndex] = React.useState('0');
   const [postSortIndex, setpostSortIndex] = React.useState('0');
+
+  React.useEffect(() => {
+    document.title = 'Новости';
+  }, []);
+
   const posts = [
     {
       id: '01',
@@ -82,9 +87,8 @@ export const News = () => {
 
       {posts.map((obj, index) => {
         return (
-          <div className="news__containerList">
+          <div className="news__containerList" key={index}>
             <Post
-              key={index}
               id={obj.id}
               text={obj.text}
               user={obj.user}

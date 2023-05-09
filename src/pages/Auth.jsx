@@ -1,6 +1,10 @@
 import React from 'react';
 
 export const Auth = () => {
+  React.useEffect(() => {
+    document.title = 'Добро пожаловать | Олдтакте';
+  }, []);
+
   return (
     <div className="auth">
       <div className="auth__headerName">Добро пожаловать</div>

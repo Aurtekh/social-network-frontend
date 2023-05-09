@@ -46,6 +46,10 @@ const Home = () => {
     },
   ];
 
+  React.useEffect(() => {
+    document.title = 'Даниил Ермолович';
+  }, []);
+
   const friends = [
     {
       username: 'Даниил Ермолович',

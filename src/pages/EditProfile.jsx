@@ -1,6 +1,10 @@
 import React from 'react';
 
 export const EditProfile = () => {
+  React.useEffect(() => {
+    document.title = 'Редактирование моей страницы';
+  }, []);
+
   return (
     <div className="editProfile">
       <div className="home__headerName">Основная информация</div>

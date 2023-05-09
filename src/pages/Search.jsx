@@ -2,6 +2,10 @@ import React from 'react';
 import avatar from '../assets/img/avatarMe.jpg';
 
 export const Search = () => {
+  React.useEffect(() => {
+    document.title = 'Поиск друзей';
+  }, []);
+
   const peopleList = [
     {
       username: 'Даниил Ермолович',
