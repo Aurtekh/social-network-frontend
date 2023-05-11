@@ -1,17 +1,28 @@
 import React from 'react';
 import styles from './Post.module.scss';
-import postImg from '../../assets/img/testPostImg.jpg';
 import { PostSkeleton } from './Skeleton';
 import { useParams } from 'react-router-dom';
+import { fetchLikePosts, fetchPosts } from '../../redux/slices/posts';
+import { useDispatch } from 'react-redux';
 
 export const Post = ({ id, text, user, createdAt, imageUrl, like, isLoading }) => {
   const params = useParams();
+  const dispatch = useDispatch();
   const pathname = window.location.pathname;
+  const unicLike = new Set(like);
+  const [likeCount, setLikeCount] = React.useState(unicLike.size);
+
+  const likeThisPost = () => {
+    const data = dispatch(fetchLikePosts(id));
+    unicLike.add(user._id);
+    setLikeCount(unicLike.size);
+    console.log(unicLike);
+  };
 
   if (isLoading) {
     return <PostSkeleton />;
   }
-  const unicLike = new Set(like);
+
   const checkUser = params?.id?.replace(/id\s?/, '') === user._id;
 
   if (checkUser || pathname === '/news') {
@@ -32,8 +43,8 @@ export const Post = ({ id, text, user, createdAt, imageUrl, like, isLoading }) =
               </div>
               <div className={styles.wrapperInfoPost}>
                 {/* <div className={styles.comment}>Комментировать</div> */}
-                <div className={styles.Like}>
-                  <span className={styles.count}>{unicLike.size}</span> мне нравится
+                <div className={styles.Like} onClick={likeThisPost}>
+                  <span className={styles.count}>{likeCount}</span> мне нравится
                 </div>
               </div>
             </div>

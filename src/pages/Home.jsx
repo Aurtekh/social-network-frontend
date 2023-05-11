@@ -42,7 +42,7 @@ const Home = () => {
           <div className="home__wrapperAvatar">
             <img
               className="home__avatar"
-              src={allInfoMe?.avatarUrl || '/noAvatar.jpg'}
+              src={allInfoMe?.avatarUrl || '/noavatar.jpg'}
               alt="avatar"></img>
           </div>
           {!checkUser && (
@@ -90,8 +90,8 @@ const Home = () => {
           <div className="home__photoListWrapper">
             <img
               className="home__photoListWrapper__list"
-              src={allInfoMe?.avatarUrl || '/noAvatar.jpg'}
-              alt={allInfoMe?.avatarUrl || '/noAvatar.jpg'}></img>
+              src={allInfoMe?.avatarUrl || '/noavatar.jpg'}
+              alt={allInfoMe?.avatarUrl || '/noavatar.jpg'}></img>
           </div>
           <div className="home__posts">
             <div className="home__posts__count">{posts.length} записей</div>
