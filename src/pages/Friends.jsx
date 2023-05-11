@@ -74,12 +74,12 @@ const Friends = () => {
           })}
         </div>
         <div className="friends__containerSort">
-          <div className="friends__sortGender">Пол</div>
+          {/* <div className="friends__sortGender">Пол</div>
           <div className="friends__sortGender__radioBtn">
             <input type="radio" value="MALE" name="gender" /> Мужской
             <input type="radio" value="FEMALE" name="gender" /> Женский
             <input type="radio" value="ANY" name="gender" /> Любой
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

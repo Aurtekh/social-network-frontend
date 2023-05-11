@@ -10,6 +10,11 @@ body {
   width: 791px;
   margin: 0 auto;
 }
+.flexWrapper {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 10px;
+}
 .content {
   display: grid;
   grid-template-columns: 1fr 5.4fr;
@@ -25,10 +30,19 @@ body {
 
     &Margin {
       border-bottom: 1px solid #e0e5e9;
-      margin-top: 5px;
+      margin-top: 10px;
     }
   }
 }
 .bold {
   font-weight: 600;
+}
+.textBtnBlue {
+  cursor: pointer;
+  color: $blue;
+  font-weight: 600;
+}
+.imgUpload {
+  max-width: 300px;
+  max-height: 300px;
 }

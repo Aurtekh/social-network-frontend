@@ -3,7 +3,7 @@
 .login {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 5px;
   padding: 10px 0px;
 
   &__text {
@@ -12,6 +12,7 @@
   }
 
   &__button {
+    margin-top: 8px;
     cursor: pointer;
     width: 150px;
     height: 35px;

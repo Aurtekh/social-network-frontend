@@ -1,6 +1,41 @@
 import React from 'react';
+import TextField from '@mui/material/TextField';
+import { useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchRegister, selectIsAuth } from '../redux/slices/auth';
+import { useNavigate } from 'react-router-dom';
 
 export const Auth = () => {
+  const isAuth = useSelector(selectIsAuth);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isValid },
+  } = useForm({
+    defaultValues: {
+      fullName: '',
+      email: '',
+      password: '',
+    },
+    mode: 'onChange',
+  });
+
+  const onSubmit = async (values) => {
+    const data = await dispatch(fetchRegister(values));
+
+    if (!data.payload) {
+      return alert('Не удалось зарегистрироваться');
+    }
+
+    if ('token' in data.payload) {
+      window.localStorage.setItem('token', data.payload.token);
+      navigate(`/id${data.payload._id}`);
+    }
+  };
+
   React.useEffect(() => {
     document.title = 'Добро пожаловать | Олдтакте';
   }, []);
@@ -15,13 +50,38 @@ export const Auth = () => {
         </div>
         <div className="auth__text">Моментальная регистрация</div>
         <div className="line-gray"></div>
-        <div className="auth__container">
-          <input type="text" placeholder="Ваше имя" />
-          <input type="text" placeholder="Ваша фамилия" />
-          <input type="text" name="email" placeholder="Ваш email" />
-          <input type="password" placeholder="Ваш пароль" />
-          <button className="login__button">Зарегистрироваться</button>
-        </div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="auth__container">
+            <TextField
+              size="small"
+              margin="dense"
+              error={Boolean(errors.fullName?.message)}
+              helperText={errors.fullName?.message}
+              {...register('fullName', { required: 'Укажите полное имя' })}
+              placeholder="Ваше Имя и Фамилия"
+            />
+            <TextField
+              size="small"
+              margin="dense"
+              error={Boolean(errors.email?.message)}
+              helperText={errors.email?.message}
+              type="email"
+              {...register('email', { required: 'Укажите почту' })}
+              placeholder="Укажите почту"
+            />
+            <TextField
+              size="small"
+              margin="dense"
+              error={Boolean(errors.password?.message)}
+              helperText={errors.password?.message}
+              {...register('password', { required: 'Укажите пароль' })}
+              placeholder="Укажите пароль"
+            />
+            <button disabled={!isValid} type="submit" className="login__button">
+              Зарегистрироваться
+            </button>
+          </div>
+        </form>
         <div className="auth__text">В чём поможет Олдтакте?</div>
         <div className="line-gray"></div>
         <div className="auth__infoList">

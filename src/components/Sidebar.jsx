@@ -1,13 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const Sidebar = () => {
+  const isMeId = useSelector((state) => state.auth.data);
+
   return (
     <div className="sidebar">
       <div className="sidebar__menu">
         <ul>
           <li>
-            <Link to={'/'} className="sidebar__link">
+            <Link to={`/id${isMeId._id}`} className="sidebar__link">
               Моя страница
             </Link>
           </li>
