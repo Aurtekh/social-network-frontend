@@ -50,7 +50,7 @@ export const Search = () => {
       <div>
         {users.items.map((obj, index) => {
           return (
-            <div key={index} style={{ width: '65%' }}>
+            <div key={index}>
               <div className="search__containerFriendList">
                 <img
                   className="search__avatar"
