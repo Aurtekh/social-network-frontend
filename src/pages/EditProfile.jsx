@@ -15,7 +15,7 @@ export const EditProfile = () => {
   const [city, setCity] = React.useState(infoAboutMe?.city || '');
   const [language, setLanguage] = React.useState(infoAboutMe?.language || '');
   const [university, setuniversity] = React.useState(infoAboutMe?.university || '');
-  const [avatarUrl, setAvatarUrl] = React.useState('');
+  const [avatarUrl, setAvatarUrl] = React.useState(infoAboutMe.avatarUrl);
 
   const [isLoading, setIsLoading] = React.useState(false);
 
