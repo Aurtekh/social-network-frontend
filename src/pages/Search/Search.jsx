@@ -1,13 +1,14 @@
 import React from 'react';
-import avatar from '../assets/img/avatarMe.jpg';
 import debounce from 'lodash.debounce';
+import { SearchSkeleton } from './Skeleton';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { TextField } from '@mui/material';
-import { fetchSearchUsers } from '../redux/slices/users';
+import { fetchSearchUsers } from '../../redux/slices/users';
 export const Search = () => {
   const dispatch = useDispatch();
   const { users } = useSelector((state) => state.users);
+  const isUsersLoading = users.status === 'loading';
 
   const [value, setValue] = React.useState('');
 
@@ -48,8 +49,10 @@ export const Search = () => {
       </div>
       <div className="line-gray"></div>
       <div>
-        {users.items.map((obj, index) => {
-          return (
+        {(isUsersLoading ? [...Array(5)] : users.items).map((obj, index) =>
+          isUsersLoading ? (
+            <SearchSkeleton key={index} />
+          ) : (
             <div key={index}>
               <div className="search__containerFriendList">
                 <img
@@ -77,8 +80,8 @@ export const Search = () => {
               </div>
               <div className="line-gray"></div>
             </div>
-          );
-        })}
+          ),
+        )}
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import Friends from './pages/Friends';
 import Home from './pages/Home';
 import { Message } from './pages/Message';
 import { News } from './pages/News';
-import { Search } from './pages/Search';
+import { Search } from './pages/Search/Search';
 import { EditProfile } from './pages/EditProfile';
 import { Auth } from './pages/Auth';
 
