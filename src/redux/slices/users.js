@@ -16,7 +16,11 @@ const initialState = {
 const userSlice = createSlice({
   name: 'users',
   initialState,
-  reducer: {},
+  reducer: {
+    clearUsers: (state) => {
+      state.users.items = [];
+    },
+  },
   extraReducers: (builder) => {
     // Получение статей
     builder.addCase(fetchSearchUsers.pending, (state) => {
@@ -35,3 +39,5 @@ const userSlice = createSlice({
 });
 
 export const userReducer = userSlice.reducer;
+
+export const { clearUsers } = userSlice.actions;

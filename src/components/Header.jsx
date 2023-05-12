@@ -4,6 +4,7 @@ import { logout, selectIsAuth } from '../redux/slices/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { clearUsers } from '../redux/slices/users';
 
 const Header = ({ pathname }) => {
   const isMeId = useSelector((state) => state.auth.data);
@@ -18,7 +19,9 @@ const Header = ({ pathname }) => {
       navigate('/auth');
     }
   };
-
+  const clear = () => {
+    dispatch(clearUsers());
+  };
   return (
     <header className="header">
       <div className="header__wrapper">
@@ -33,7 +36,7 @@ const Header = ({ pathname }) => {
         {isAuth && (
           <div className="header__wrapper__right">
             <div className="header__nav">
-              <Link to={'/search'} className="header__nav__link">
+              <Link to={'/search'} className="header__nav__link" onClick={clear}>
                 люди
               </Link>
             </div>
