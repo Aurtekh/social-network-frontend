@@ -13,12 +13,10 @@ export const Post = ({ id, text, user, createdAt, imageUrl, like, isLoading }) =
   const [likeCount, setLikeCount] = React.useState(unicLike.size);
 
   const likeThisPost = () => {
-    const data = dispatch(fetchLikePosts(id));
+    dispatch(fetchLikePosts(id));
     unicLike.add(user._id);
     setLikeCount(unicLike.size);
-    console.log(unicLike);
   };
-
   if (isLoading) {
     return <PostSkeleton />;
   }
@@ -31,12 +29,32 @@ export const Post = ({ id, text, user, createdAt, imageUrl, like, isLoading }) =
         <div className={styles.root}>
           <img
             className={styles.imgAvatar}
-            src={user.avatarUrl || '/noavatar.jpg'}
+            src={
+              user.avatarUrl !== ''
+                ? `${process.env.REACT_APP_API_URL}${user.avatarUrl}`
+                : '/noavatar.jpg'
+            }
+            // src={user.avatarUrl !== '' ? `http://localhost:4444${user.avatarUrl}` : '/noavatar.jpg'}
+            onError={(e) => {
+              e.target.onerror = null;
+              // e.target.src = `${process.env.REACT_APP_API_URL}/deletedImgAvatar.jpg`;
+              e.target.src = `/deletedImgAvatar.jpg`;
+            }}
             alt="avatar"></img>
           <div className={styles.wrapper}>
             <div className={styles.username}>{user.fullName}</div>
             <div className={styles.text}>{text}</div>
-            {imageUrl && <img className={styles.imgPost} src={imageUrl} alt="postImg"></img>}
+            {imageUrl && (
+              <img
+                className={styles.imgPost}
+                src={imageUrl}
+                onError={(e) => {
+                  e.target.onerror = null;
+                  // e.target.src = `${process.env.REACT_APP_API_URL}/deletedImgPost.jpg`;
+                  e.target.src = `/deletedImgPost.jpg`;
+                }}
+                alt="postImg"></img>
+            )}
             <div className={styles.wrapperInfoPost}>
               <div className={styles.textGray}>
                 {createdAt.split('').slice(0, 16).join('').replace('T', ' ')}

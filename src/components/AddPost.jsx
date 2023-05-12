@@ -39,7 +39,6 @@ export const AddPost = () => {
       dispatch(fetchPosts());
       setText('');
       onClickRemoveImage();
-      console.log(data);
     } catch (err) {
       console.warn(err);
       alert('Ошибка при создании статьи');

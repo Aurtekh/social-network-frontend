@@ -1,6 +1,33 @@
 @import '../variables';
 
 .editProfile {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   max-width: 633px;
   border: 1px solid #e3e4e8;
+
+  &__flexWrapper {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    padding-bottom: 10px;
+    padding: 0 15px;
+  }
+
+  button {
+    margin: 0 auto;
+    margin-bottom: 10px;
+    cursor: pointer;
+    width: 200px;
+    height: 30px;
+    color: #fff;
+    background: $blue;
+    border: none;
+    border-radius: 2px;
+
+    &:hover {
+      filter: brightness(110%);
+    }
+  }
 }

@@ -42,7 +42,21 @@ const Home = () => {
           <div className="home__wrapperAvatar">
             <img
               className="home__avatar"
-              src={allInfoMe?.avatarUrl || '/noavatar.jpg'}
+              src={
+                allInfoMe?.avatarUrl !== ''
+                  ? `${process.env.REACT_APP_API_URL}${allInfoMe?.avatarUrl}`
+                  : '/noavatar.jpg'
+              }
+              // src={
+              //   allInfoMe?.avatarUrl !== ''
+              //     ? `http://localhost:4444${allInfoMe?.avatarUrl}`
+              //     : '/noavatar.jpg'
+              // }
+              onError={(e) => {
+                e.target.onerror = null;
+                // e.target.src = `${process.env.REACT_APP_API_URL}/deletedImgAvatar.jpg`;
+                e.target.src = `/deletedImgAvatar.jpg`;
+              }}
               alt="avatar"></img>
           </div>
           {!checkUser && (
@@ -62,7 +76,16 @@ const Home = () => {
             {friends.map((obj, index) => {
               return (
                 <div className="home__friends__listWrapper__container" key={index}>
-                  <img className="home__friends__avatar" src={obj.avatar} alt="avatar"></img>
+                  <img
+                    className="home__friends__avatar"
+                    src={obj.avatar}
+                    // `http://localhost:4444${styles.imgPost}`
+                    alt="avatar"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      // e.target.src = `${process.env.REACT_APP_API_URL}/deletedImgAvatar.jpg`;
+                      e.target.src = `/deletedImgAvatar.jpg`;
+                    }}></img>
                   <div>{obj.username}</div>
                 </div>
               );
@@ -90,7 +113,21 @@ const Home = () => {
           <div className="home__photoListWrapper">
             <img
               className="home__photoListWrapper__list"
-              src={allInfoMe?.avatarUrl || '/noavatar.jpg'}
+              src={
+                allInfoMe?.avatarUrl !== ''
+                  ? `${process.env.REACT_APP_API_URL}${allInfoMe?.avatarUrl}`
+                  : '/noavatar.jpg'
+              }
+              // src={
+              //   allInfoMe?.avatarUrl !== ''
+              //     ? `http://localhost:4444${allInfoMe?.avatarUrl}`
+              //     : '/noavatar.jpg'
+              // }
+              onError={(e) => {
+                e.target.onerror = null;
+                // e.target.src = `${process.env.REACT_APP_API_URL}/deletedImgAvatar.jpg`;
+                e.target.src = `/deletedImgAvatar.jpg`;
+              }}
               alt={allInfoMe?.avatarUrl || '/noavatar.jpg'}></img>
           </div>
           <div className="home__posts">

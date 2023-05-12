@@ -61,7 +61,16 @@ const Friends = () => {
             return (
               <div key={index}>
                 <div className="friends__containerFriendList">
-                  <img className="friends__avatar" src={obj.avatar} alt="avatar"></img>
+                  <img
+                    className="friends__avatar"
+                    src={obj.avatar}
+                    // `http://localhost:4444${styles.imgPost}`
+                    alt="avatar"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      // e.target.src = `${process.env.REACT_APP_API_URL}/deletedImgPost.jpg`;
+                      e.target.src = `/deletedImgAvatar.jpg`;
+                    }}></img>
                   <div>
                     <div className="friends__name">{obj.username}</div>
                     <div>Написать сообщение</div>
