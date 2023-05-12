@@ -57,19 +57,18 @@ export const Search = () => {
                 <div className="search__containerFriendList">
                   <img
                     className="search__avatar"
-                    //                   src={
-                    //                     obj?.avatarUrl !== ''
-                    //     ? `${process.env.REACT_APP_API_URL}${obj?.avatarUrl}`
-                    //     : '/noavatar.jpg'
-                    // }
                     src={
                       obj?.avatarUrl !== ''
-                        ? `http://localhost:4444${obj?.avatarUrl}`
+                        ? `${process.env.REACT_APP_API_URL}${obj?.avatarUrl}`
                         : '/noavatar.jpg'
                     }
+                    // src={
+                    //   obj?.avatarUrl !== ''
+                    //     ? `http://localhost:4444${obj?.avatarUrl}`
+                    //     : '/noavatar.jpg'
+                    // }
                     onError={(e) => {
                       e.target.onerror = null;
-                      // e.target.src = `${process.env.REACT_APP_API_URL}/deletedImgAvatar.jpg`;
                       e.target.src = `/deletedImgAvatar.jpg`;
                     }}></img>
                   <div>
