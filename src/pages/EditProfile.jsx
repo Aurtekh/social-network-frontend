@@ -54,11 +54,10 @@ export const EditProfile = () => {
         return;
       }
       const { data } = await axios.patch(`/me/${infoAboutMe._id}`, fields);
-      onClickRemoveImage();
       dispatch(fetchAuthMe());
     } catch (err) {
       console.warn(err);
-      alert('Ошибка при создании статьи');
+      alert('Ошибка при редактировании профиля');
     }
   };
 
