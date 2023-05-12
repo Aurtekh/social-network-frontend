@@ -9,7 +9,6 @@ export const Search = () => {
   const dispatch = useDispatch();
   const { users } = useSelector((state) => state.users);
   const isUsersLoading = users.status === 'loading';
-
   const [value, setValue] = React.useState('');
 
   React.useEffect(() => {
@@ -49,39 +48,40 @@ export const Search = () => {
       </div>
       <div className="line-gray"></div>
       <div>
-        {(isUsersLoading ? [...Array(5)] : users.items).map((obj, index) =>
-          isUsersLoading ? (
-            <SearchSkeleton key={index} />
-          ) : (
-            <div key={index}>
-              <div className="search__containerFriendList">
-                <img
-                  className="search__avatar"
-                  //                   src={
-                  //                     obj?.avatarUrl !== ''
-                  //     ? `${process.env.REACT_APP_API_URL}${obj?.avatarUrl}`
-                  //     : '/noavatar.jpg'
-                  // }
-                  src={
-                    obj?.avatarUrl !== ''
-                      ? `http://localhost:4444${obj?.avatarUrl}`
-                      : '/noavatar.jpg'
-                  }
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    // e.target.src = `${process.env.REACT_APP_API_URL}/deletedImgAvatar.jpg`;
-                    e.target.src = `/deletedImgAvatar.jpg`;
-                  }}></img>
-                <div>
-                  <div className="search__name">{obj?.fullName}</div>
-                  <div className="search__city">{obj?.city || ''}</div>
+        {value &&
+          (isUsersLoading ? [...Array(2)] : users.items).map((obj, index) =>
+            isUsersLoading ? (
+              <SearchSkeleton key={index} />
+            ) : (
+              <div key={index}>
+                <div className="search__containerFriendList">
+                  <img
+                    className="search__avatar"
+                    //                   src={
+                    //                     obj?.avatarUrl !== ''
+                    //     ? `${process.env.REACT_APP_API_URL}${obj?.avatarUrl}`
+                    //     : '/noavatar.jpg'
+                    // }
+                    src={
+                      obj?.avatarUrl !== ''
+                        ? `http://localhost:4444${obj?.avatarUrl}`
+                        : '/noavatar.jpg'
+                    }
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      // e.target.src = `${process.env.REACT_APP_API_URL}/deletedImgAvatar.jpg`;
+                      e.target.src = `/deletedImgAvatar.jpg`;
+                    }}></img>
+                  <div>
+                    <div className="search__name">{obj?.fullName}</div>
+                    <div className="search__city">{obj?.city || ''}</div>
+                  </div>
+                  <button className="search__button">Добавить в друзья</button>
                 </div>
-                <button className="search__button">Добавить в друзья</button>
+                <div className="line-gray"></div>
               </div>
-              <div className="line-gray"></div>
-            </div>
-          ),
-        )}
+            ),
+          )}
       </div>
     </div>
   );
