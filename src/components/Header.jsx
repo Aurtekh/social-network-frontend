@@ -28,7 +28,7 @@ const Header = ({ pathname }) => {
             style={{ display: 'block', height: '20px' }}>
             <img className="header__logo" src={logo} alt="Олдтакте" />
           </Link>
-          {isAuth && <input type="search" placeholder="Поиск" />}
+          {/* {isAuth && <input type="search" placeholder="Поиск" />} */}
         </div>
         {isAuth && (
           <div className="header__wrapper__right">

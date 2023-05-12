@@ -37,7 +37,6 @@ export const Post = ({ id, text, user, createdAt, imageUrl, like, isLoading }) =
             // src={user.avatarUrl !== '' ? `http://localhost:4444${user.avatarUrl}` : '/noavatar.jpg'}
             onError={(e) => {
               e.target.onerror = null;
-              // e.target.src = `${process.env.REACT_APP_API_URL}/deletedImgAvatar.jpg`;
               e.target.src = `/deletedImgAvatar.jpg`;
             }}
             alt="avatar"></img>

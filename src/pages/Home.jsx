@@ -54,7 +54,6 @@ const Home = () => {
               // }
               onError={(e) => {
                 e.target.onerror = null;
-                // e.target.src = `${process.env.REACT_APP_API_URL}/deletedImgAvatar.jpg`;
                 e.target.src = `/deletedImgAvatar.jpg`;
               }}
               alt="avatar"></img>
@@ -83,7 +82,6 @@ const Home = () => {
                     alt="avatar"
                     onError={(e) => {
                       e.target.onerror = null;
-                      // e.target.src = `${process.env.REACT_APP_API_URL}/deletedImgAvatar.jpg`;
                       e.target.src = `/deletedImgAvatar.jpg`;
                     }}></img>
                   <div>{obj.username}</div>
@@ -125,7 +123,6 @@ const Home = () => {
               // }
               onError={(e) => {
                 e.target.onerror = null;
-                // e.target.src = `${process.env.REACT_APP_API_URL}/deletedImgAvatar.jpg`;
                 e.target.src = `/deletedImgAvatar.jpg`;
               }}
               alt={allInfoMe?.avatarUrl || '/noavatar.jpg'}></img>
@@ -143,8 +140,8 @@ const Home = () => {
                 id={obj._id}
                 text={obj.text}
                 user={obj.user}
-                // imageUrl={obj.imageUrl ? `http://localhost:4444${obj.imageUrl}` : ''}
-                imageUrl={obj.imageUrl ? `${process.env.REACT_APP_API_URL}${obj.imageUrl}` : ''}
+                imageUrl={obj.imageUrl ? `http://localhost:4444${obj.imageUrl}` : ''}
+                // imageUrl={obj.imageUrl ? `${process.env.REACT_APP_API_URL}${obj.imageUrl}` : ''}
                 createdAt={obj.createdAt}
                 like={obj.like}
               />
