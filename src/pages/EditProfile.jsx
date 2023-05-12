@@ -143,7 +143,7 @@ export const EditProfile = () => {
         // <img className="imgUpload" src={`http://localhost:4444${avatarUrl}`} alt="Uploaded" />
         <img
           className="imgUpload"
-          src={`${process.env.REACT_APP_API_URL}${imageUrl}`}
+          src={`${process.env.REACT_APP_API_URL}${avatarUrl}`}
           alt="Uploaded"
         />
       )}
