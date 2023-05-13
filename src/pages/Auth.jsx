@@ -12,7 +12,7 @@ export const Auth = () => {
   const {
     register,
     handleSubmit,
-    setError,
+    // setError,
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {

@@ -9,7 +9,6 @@ export const AddPost = () => {
   const [text, setText] = React.useState('');
   const inputFileRef = React.useRef(null);
   const [imageUrl, setImageUrl] = React.useState('');
-  const [isLoading, setIsLoading] = React.useState(false);
 
   const handleChangeFile = async (event) => {
     try {
@@ -28,14 +27,12 @@ export const AddPost = () => {
 
   const onSubmit = async () => {
     try {
-      setIsLoading(true);
-
       const fields = {
         imageUrl,
         text,
       };
 
-      const { data } = await axios.post('/posts', fields);
+      await axios.post('/posts', fields);
       dispatch(fetchPosts());
       setText('');
       onClickRemoveImage();

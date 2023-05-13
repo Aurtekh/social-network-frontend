@@ -17,8 +17,6 @@ export const EditProfile = () => {
   const [university, setuniversity] = React.useState(infoAboutMe?.university || '');
   const [avatarUrl, setAvatarUrl] = React.useState(infoAboutMe?.avatarUrl || '');
 
-  const [isLoading, setIsLoading] = React.useState(false);
-
   const handleChangeFile = async (event) => {
     try {
       const formData = new FormData();
@@ -37,8 +35,6 @@ export const EditProfile = () => {
 
   const onSubmit = async () => {
     try {
-      setIsLoading(true);
-
       const fields = {
         fullName,
         status,
@@ -53,7 +49,7 @@ export const EditProfile = () => {
         alert('Имя не должно быть пустым');
         return;
       }
-      const { data } = await axios.patch(`/me/${infoAboutMe._id}`, fields);
+      await axios.patch(`/me/${infoAboutMe._id}`, fields);
       dispatch(fetchAuthMe());
     } catch (err) {
       console.warn(err);

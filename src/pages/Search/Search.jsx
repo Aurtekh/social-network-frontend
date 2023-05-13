@@ -67,6 +67,7 @@ export const Search = () => {
                     //     ? `http://localhost:4444${obj?.avatarUrl}`
                     //     : '/noavatar.jpg'
                     // }
+                    alt="avatar"
                     onError={(e) => {
                       e.target.onerror = null;
                       e.target.src = `/deletedImgAvatar.jpg`;

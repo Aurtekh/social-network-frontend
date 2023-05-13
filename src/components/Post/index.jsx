@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Post.module.scss';
 import { PostSkeleton } from './Skeleton';
 import { useParams } from 'react-router-dom';
-import { fetchLikePosts, fetchPosts } from '../../redux/slices/posts';
+import { fetchLikePosts } from '../../redux/slices/posts';
 import { useDispatch } from 'react-redux';
 
 export const Post = ({ id, text, user, createdAt, imageUrl, like, isLoading }) => {

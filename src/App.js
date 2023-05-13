@@ -10,12 +10,12 @@ import { Search } from './pages/Search/Search';
 import { EditProfile } from './pages/EditProfile';
 import { Auth } from './pages/Auth';
 
-import { fetchAuthMe, selectIsAuth } from './redux/slices/auth';
-import { useDispatch, useSelector } from 'react-redux';
+import { fetchAuthMe } from './redux/slices/auth';
+import { useDispatch } from 'react-redux';
+import { NotFound } from './pages/NotFound';
 
 function App() {
   const dispatch = useDispatch();
-  const isAuth = useSelector(selectIsAuth);
 
   React.useEffect(() => {
     dispatch(fetchAuthMe());
@@ -33,6 +33,7 @@ function App() {
           <Route path="/search" element={<Search />} />
           <Route path="/edit" element={<EditProfile />} />
           <Route path="/auth" element={<Auth />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </>
