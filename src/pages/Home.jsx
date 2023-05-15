@@ -20,7 +20,7 @@ const Home = () => {
   const idOtherPeople = params?.id?.replace(/id\s?/, '');
   const checkUser = idOtherPeople === allInfoMe?._id;
   const checkFriends = allInfoMe?.friends?.includes(idOtherPeople);
-  console.log(checkFriends);
+
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.posts);
   const { userFriends } = useSelector((state) => state.users);
