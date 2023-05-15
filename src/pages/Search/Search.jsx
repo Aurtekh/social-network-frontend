@@ -4,14 +4,22 @@ import { SearchSkeleton } from './Skeleton';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { TextField } from '@mui/material';
-import { fetchSearchUsers } from '../../redux/slices/users';
+import {
+  fetchSearchUsers,
+  fetchUserAddFriends,
+  fetchUserDeleteFriends,
+} from '../../redux/slices/users';
+import { Link } from 'react-router-dom';
+import { fetchAuthMe } from '../../redux/slices/auth';
 export const Search = () => {
   const dispatch = useDispatch();
+  const allInfoMe = useSelector((state) => state.auth.data);
   const { users } = useSelector((state) => state.users);
   const isUsersLoading = users.status === 'loading';
   const [value, setValue] = React.useState('');
-
+  const isInfoMeLoading = allInfoMe?.status === 'loading';
   React.useEffect(() => {
+    dispatch(fetchAuthMe());
     document.title = 'Поиск друзей';
   }, []);
 
@@ -27,6 +35,18 @@ export const Search = () => {
     updateSearchValue(event.target.value || 'empty');
   };
 
+  const FriendDelOrAdd = (event) => {
+    if (event.target.innerHTML === 'Удалить из друзей') {
+      dispatch(fetchUserDeleteFriends(event.target.id));
+      event.target.innerHTML = 'Добавить в друзья';
+    } else if (event.target.innerHTML === 'Добавить в друзья') {
+      dispatch(fetchUserAddFriends(event.target.id));
+      event.target.innerHTML = 'Удалить из друзей';
+    }
+  };
+  if (isInfoMeLoading) {
+    return <div>загрузка</div>;
+  }
   return (
     <div className="search">
       <div className="search__container">
@@ -73,10 +93,23 @@ export const Search = () => {
                       e.target.src = `/deletedImgAvatar.jpg`;
                     }}></img>
                   <div>
-                    <div className="search__name">{obj?.fullName}</div>
+                    <Link to={`/id${obj._id}`}>
+                      <div className="search__name">{obj?.fullName}</div>
+                    </Link>
                     <div className="search__city">{obj?.city || ''}</div>
                   </div>
-                  <button className="search__button">Добавить в друзья</button>
+
+                  {allInfoMe?._id === obj._id ? (
+                    <div>Это вы</div>
+                  ) : allInfoMe.friends.includes(obj._id) ? (
+                    <button className="search__button" onClick={FriendDelOrAdd} id={obj._id}>
+                      Удалить из друзей
+                    </button>
+                  ) : (
+                    <button className="search__button" onClick={FriendDelOrAdd} id={obj._id}>
+                      Добавить в друзья
+                    </button>
+                  )}
                 </div>
                 <div className="line-gray"></div>
               </div>

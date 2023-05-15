@@ -16,6 +16,19 @@ export const fetchUserFriends = createAsyncThunk('users/fetchUserFriends', async
   return data;
 });
 
+export const fetchUserAddFriends = createAsyncThunk('users/fetchUserAddFriends', async (id) => {
+  const { data } = await axios.get(`/friends/add/${id}`);
+  return data;
+});
+
+export const fetchUserDeleteFriends = createAsyncThunk(
+  'users/fetchUserDeleteFriends',
+  async (id) => {
+    const { data } = await axios.get(`/friends/delete/${id}`);
+    return data;
+  },
+);
+
 const initialState = {
   users: {
     items: [],

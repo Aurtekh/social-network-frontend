@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './Post.module.scss';
 import { PostSkeleton } from './Skeleton';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { fetchLikePosts } from '../../redux/slices/posts';
 import { useDispatch } from 'react-redux';
 
@@ -41,7 +41,13 @@ export const Post = ({ id, text, user, createdAt, imageUrl, like, isLoading }) =
             }}
             alt="avatar"></img>
           <div className={styles.wrapper}>
-            <div className={styles.username}>{user.fullName}</div>
+            {pathname === '/news' ? (
+              <Link to={`/id${user._id}`}>
+                <div className={styles.username}>{user.fullName}</div>
+              </Link>
+            ) : (
+              <div className={styles.username}>{user.fullName}</div>
+            )}
             <div className={styles.text}>{text}</div>
             {imageUrl && (
               <img
@@ -49,7 +55,6 @@ export const Post = ({ id, text, user, createdAt, imageUrl, like, isLoading }) =
                 src={imageUrl}
                 onError={(e) => {
                   e.target.onerror = null;
-                  // e.target.src = `${process.env.REACT_APP_API_URL}/deletedImgPost.jpg`;
                   e.target.src = `/deletedImgPost.jpg`;
                 }}
                 alt="postImg"></img>

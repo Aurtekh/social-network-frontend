@@ -70,6 +70,7 @@
     border-left: 1px solid #e0e5e9;
     background: #f7f7f7;
   }
+
   &__sortGender,
   &__name {
     margin-bottom: 5px;
@@ -84,6 +85,7 @@
       justify-items: start;
     }
   }
+
   &__containerFriendList {
     padding: 10px;
     display: grid;
@@ -93,8 +95,20 @@
     grid-row-gap: 10px;
     justify-items: start;
   }
+
   &__avatar {
     width: 150px;
     height: 150px;
+  }
+
+  &__deleteFriends {
+    cursor: pointer;
+    margin: 0 auto;
+    height: fit-content;
+
+    &:hover {
+      font-weight: 600;
+      color: $blue;
+    }
   }
 }

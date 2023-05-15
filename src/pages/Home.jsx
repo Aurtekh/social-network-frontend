@@ -1,12 +1,17 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import avatar from '../assets/img/avatarMe.jpg';
 import { Post } from '../components/Post';
 import { fetchPosts } from '../redux/slices/posts';
 import { Link, useParams } from 'react-router-dom';
 import { AddPost } from '../components/AddPost';
-import { fetchUserById, fetchUserFriends } from '../redux/slices/users';
+import {
+  fetchUserAddFriends,
+  fetchUserById,
+  fetchUserDeleteFriends,
+  fetchUserFriends,
+} from '../redux/slices/users';
 import { NotFound } from './NotFound';
+import { fetchAuthMe } from '../redux/slices/auth';
 
 const Home = () => {
   const params = useParams();
@@ -14,14 +19,15 @@ const Home = () => {
   const { user } = useSelector((state) => state.users);
   const idOtherPeople = params?.id?.replace(/id\s?/, '');
   const checkUser = idOtherPeople === allInfoMe?._id;
-  const checkFriends = allInfoMe?.friends?.find((item) => item === idOtherPeople);
+  const checkFriends = allInfoMe?.friends?.includes(idOtherPeople);
+  console.log(checkFriends);
   const dispatch = useDispatch();
   const { posts } = useSelector((state) => state.posts);
   const { userFriends } = useSelector((state) => state.users);
   const isPostsLoading = posts.status === 'loading';
-  console.log(userFriends);
 
   React.useEffect(() => {
+    dispatch(fetchAuthMe());
     dispatch(fetchPosts());
     dispatch(fetchUserById(idOtherPeople));
     dispatch(fetchUserFriends(idOtherPeople));
@@ -29,6 +35,7 @@ const Home = () => {
   }, []);
 
   React.useEffect(() => {
+    dispatch(fetchAuthMe());
     dispatch(fetchUserById(idOtherPeople));
     dispatch(fetchUserFriends(idOtherPeople));
     // eslint-disable-next-line
@@ -38,12 +45,16 @@ const Home = () => {
     document.title = 'Даниил Ермолович';
   }, []);
 
-  const friends1 = [
-    {
-      username: 'Даниил Ермолович',
-      avatar: avatar,
-    },
-  ];
+  const FriendDelOrAdd = (event) => {
+    if (event.target.innerHTML === 'Удалить из друзей') {
+      dispatch(fetchUserDeleteFriends(event.target.id));
+      event.target.innerHTML = 'Добавить в друзья';
+    } else if (event.target.innerHTML === 'Добавить в друзья') {
+      dispatch(fetchUserAddFriends(event.target.id));
+      event.target.innerHTML = 'Удалить из друзей';
+    }
+  };
+
   if (!user.items || user.status === 'error') {
     return <NotFound />;
   }
@@ -75,9 +86,13 @@ const Home = () => {
             <>
               <button className="home__sendMessage">Написать сообщение</button>
               {checkFriends ? (
-                <button className="home__addFriend">Удалить из друзей</button>
+                <button className="home__addFriend" onClick={FriendDelOrAdd} id={idOtherPeople}>
+                  Удалить из друзей
+                </button>
               ) : (
-                <button className="home__addFriend">Добавить в друзья</button>
+                <button className="home__addFriend" onClick={FriendDelOrAdd} id={idOtherPeople}>
+                  Добавить в друзья
+                </button>
               )}
             </>
           )}
@@ -151,7 +166,10 @@ const Home = () => {
               alt={user.items?.avatarUrl || '/noavatar.jpg'}></img>
           </div>
           <div className="home__posts">
-            <div className="home__posts__count">{posts.length} записей</div>
+            <div className="home__posts__count">
+              {posts?.items?.map((obj) => obj.user._id === idOtherPeople).filter(Boolean).length}{' '}
+              записей
+            </div>
           </div>
           {checkUser && <AddPost />}
           {(isPostsLoading ? [...Array(5)] : posts.items).map((obj, index) =>
@@ -163,8 +181,8 @@ const Home = () => {
                 id={obj._id}
                 text={obj.text}
                 user={obj.user}
-                imageUrl={obj.imageUrl ? `http://localhost:4444${obj.imageUrl}` : ''}
-                // imageUrl={obj.imageUrl ? `${process.env.REACT_APP_API_URL}${obj.imageUrl}` : ''}
+                // imageUrl={obj.imageUrl ? `http://localhost:4444${obj.imageUrl}` : ''}
+                imageUrl={obj.imageUrl ? `${process.env.REACT_APP_API_URL}${obj.imageUrl}` : ''}
                 createdAt={obj.createdAt}
                 like={obj.like}
               />
