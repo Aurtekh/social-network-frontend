@@ -39,7 +39,7 @@ const Home = () => {
     dispatch(fetchAuthMe());
     dispatch(fetchUserById(idOtherPeople));
     dispatch(fetchUserFriends(idOtherPeople));
-    document.title = user.items ? user.items.fullName : 'Моя страница';
+    // document.title = user.items ? user.items.fullName : 'Моя страница';
     // eslint-disable-next-line
   }, [idOtherPeople]);
 
