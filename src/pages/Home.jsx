@@ -31,6 +31,7 @@ const Home = () => {
     dispatch(fetchPosts());
     dispatch(fetchUserById(idOtherPeople));
     dispatch(fetchUserFriends(idOtherPeople));
+    document.title = user.items ? user.items.fullName : 'Моя страница';
     // eslint-disable-next-line
   }, []);
 
@@ -38,12 +39,9 @@ const Home = () => {
     dispatch(fetchAuthMe());
     dispatch(fetchUserById(idOtherPeople));
     dispatch(fetchUserFriends(idOtherPeople));
+    document.title = user.items ? user.items.fullName : 'Моя страница';
     // eslint-disable-next-line
   }, [idOtherPeople]);
-
-  React.useEffect(() => {
-    document.title = 'Даниил Ермолович';
-  }, []);
 
   const FriendDelOrAdd = (event) => {
     if (event.target.innerHTML === 'Удалить из друзей') {
