@@ -9,7 +9,7 @@ import SkeletonsSidebar from '../components/Skeletons/SkeletonsSidebar';
 
 const MainLayout = () => {
   const navigate = useNavigate();
-  const Auth = useSelector((state) => state.auth.data);
+  const Auth = useSelector((state) => state.auth);
   const pathname = window.location.pathname;
   const isAuth = useSelector(selectIsAuth);
   const isAuthLoading = Auth.status === 'loading';
