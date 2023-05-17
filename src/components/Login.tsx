@@ -1,13 +1,11 @@
-import React from 'react';
 import { useForm } from 'react-hook-form';
 import TextField from '@mui/material/TextField';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchAuth, selectIsAuth } from '../redux/slices/auth';
+import { fetchAuth } from '../redux/slices/auth';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../redux/store';
 
 export const Login = () => {
-  const isAuth = useSelector(selectIsAuth);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const {
     register,
@@ -22,8 +20,13 @@ export const Login = () => {
     mode: 'onChange',
   });
 
-  const onSubmit = async (values) => {
-    const data = await dispatch(fetchAuth(values));
+  type LoginValues = {
+    email: string;
+    password: string;
+  };
+
+  const onSubmit = async (values: LoginValues) => {
+    const data: any = await dispatch(fetchAuth(values));
 
     if (!data.payload) {
       return alert('Не удалось авторизоваться');

@@ -2,7 +2,7 @@ import React from 'react';
 import avatar from '../assets/img/avatarMe.jpg';
 import { Link, useParams } from 'react-router-dom';
 
-export const Message = () => {
+export const Message: React.FC = () => {
   const [tabIndex1, setTabIndex1] = React.useState('0');
   const { id } = useParams();
 
@@ -12,32 +12,32 @@ export const Message = () => {
 
   const messageList = [
     {
-      username: 'Даниил Ермолович',
+      username: 'Страница в процессе разработки',
       avatar: avatar,
       text: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. 11',
     },
     {
-      username: 'Даниил Ермолович',
+      username: 'Страница в процессе разработки',
       avatar: avatar,
       text: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. 22',
     },
     {
-      username: 'Даниил Ермолович',
+      username: 'Страница в процессе разработки',
       avatar: avatar,
       text: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. 33',
     },
     {
-      username: 'Даниил Ермолович',
+      username: 'Страница в процессе разработки',
       avatar: avatar,
       text: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. 44',
     },
     {
-      username: 'Даниил Ермолович',
+      username: 'Страница в процессе разработки',
       avatar: avatar,
       text: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. 55',
     },
     {
-      username: 'Даниил Ермолович',
+      username: 'Страница в процессе разработки',
       avatar: avatar,
       text: 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. 66',
     },
@@ -80,9 +80,9 @@ export const Message = () => {
         ) : (
           <div className="message__dialogBtn">
             <div className="message__wrapper">
-              <img className="message__avatar" src={messageList[id].avatar} alt="avatar"></img>
-              <div className="friends__name">{messageList[id].username}</div>
-              <div className="message__text">{messageList[id].text}</div>
+              <img className="message__avatar" src={messageList[+id].avatar} alt="avatar"></img>
+              <div className="friends__name">{messageList[+id].username}</div>
+              <div className="message__text">{messageList[+id].text}</div>
             </div>
             <div className="line-gray"></div>
           </div>

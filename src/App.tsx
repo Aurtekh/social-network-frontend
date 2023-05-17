@@ -3,7 +3,7 @@ import React from 'react';
 import MainLayout from './layouts/MainLayout';
 import { Route, Routes } from 'react-router-dom';
 import Friends from './pages/Friends';
-import Home from './pages/Home';
+import { Home } from './pages/Home';
 import { Message } from './pages/Message';
 import { News } from './pages/News';
 import { Search } from './pages/Search/Search';
@@ -18,7 +18,7 @@ function App() {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    dispatch(fetchAuthMe());
+    dispatch<any>(fetchAuthMe()); //fix any
   }, []);
 
   return (

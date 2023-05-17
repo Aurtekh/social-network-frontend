@@ -1,13 +1,12 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchRegister, selectIsAuth } from '../redux/slices/auth';
+import { fetchRegister } from '../redux/slices/auth';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../redux/store';
 
-export const Auth = () => {
-  const isAuth = useSelector(selectIsAuth);
-  const dispatch = useDispatch();
+export const Auth: React.FC = () => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const {
     register,
@@ -23,7 +22,12 @@ export const Auth = () => {
     mode: 'onChange',
   });
 
-  const onSubmit = async (values) => {
+  type SubmitAuth = {
+    fullName: string;
+    email: string;
+    password: string;
+  };
+  const onSubmit = async (values: SubmitAuth) => {
     const data = await dispatch(fetchRegister(values));
 
     if (!data.payload) {

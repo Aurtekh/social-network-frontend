@@ -1,13 +1,14 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import axios from '../axios';
 import { fetchAuthMe } from '../redux/slices/auth';
+import { RootState, useAppDispatch } from '../redux/store';
 
-export const EditProfile = () => {
-  const dispatch = useDispatch();
-  const infoAboutMe = useSelector((state) => state.auth.data);
-  const inputFileRef = React.useRef(null);
+export const EditProfile: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const infoAboutMe = useSelector((state: RootState) => state.auth.data);
+  const inputFileRef = React.useRef<HTMLInputElement>(null);
 
   const [fullName, setFullName] = React.useState(infoAboutMe?.fullName || '');
   const [status, setStatus] = React.useState(infoAboutMe?.status || '');
@@ -17,7 +18,7 @@ export const EditProfile = () => {
   const [university, setuniversity] = React.useState(infoAboutMe?.university || '');
   const [avatarUrl, setAvatarUrl] = React.useState(infoAboutMe?.avatarUrl || '');
 
-  const handleChangeFile = async (event) => {
+  const handleChangeFile = async (event: { target: { files: (string | Blob)[] } }) => {
     try {
       const formData = new FormData();
       formData.append('image', event.target.files[0]);
@@ -49,7 +50,7 @@ export const EditProfile = () => {
         alert('Имя не должно быть пустым');
         return;
       }
-      await axios.patch(`/me/${infoAboutMe._id}`, fields);
+      await axios.patch(`/me/${infoAboutMe?._id}`, fields);
       dispatch(fetchAuthMe());
     } catch (err) {
       console.warn(err);
@@ -124,7 +125,7 @@ export const EditProfile = () => {
         </div>
       </div>
       <div className="editProfile__flexWrapper">
-        <div className="textBtnBlue" onClick={() => inputFileRef.current.click()}>
+        <div className="textBtnBlue" onClick={() => inputFileRef?.current?.click()}>
           Добавить фото
         </div>
         {avatarUrl && (
@@ -133,7 +134,7 @@ export const EditProfile = () => {
           </div>
         )}
       </div>
-      <input ref={inputFileRef} type="file" onChange={handleChangeFile} hidden />
+      <input ref={inputFileRef} type="file" onChange={() => handleChangeFile} hidden />
       {avatarUrl && (
         // <img className="imgUpload" src={`http://localhost:4444${avatarUrl}`} alt="Uploaded" />
         <img

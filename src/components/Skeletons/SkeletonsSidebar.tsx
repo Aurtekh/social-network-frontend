@@ -1,7 +1,6 @@
-import React from 'react';
 import ContentLoader from 'react-content-loader';
 
-const SkeletonsSidebar = (props) => (
+export const SkeletonsSidebar: React.FC = (props: any) => (
   <ContentLoader
     speed={2}
     width={120}
@@ -17,5 +16,3 @@ const SkeletonsSidebar = (props) => (
     <rect x="0" y="113" rx="0" ry="0" width="117" height="18" />
   </ContentLoader>
 );
-
-export default SkeletonsSidebar;

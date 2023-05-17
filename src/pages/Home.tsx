@@ -1,5 +1,5 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Post } from '../components/Post';
 import { fetchPosts } from '../redux/slices/posts';
 import { Link, useParams } from 'react-router-dom';
@@ -11,51 +11,64 @@ import {
   fetchUserFriends,
 } from '../redux/slices/users';
 import { NotFound } from './NotFound';
-import { fetchAuthMe } from '../redux/slices/auth';
+import { fetchAuthMe, selectIsAuth } from '../redux/slices/auth';
+import { RootState, useAppDispatch } from '../redux/store';
 
-const Home = () => {
+export const Home: React.FC = () => {
   const params = useParams();
-  const allInfoMe = useSelector((state) => state.auth.data);
-  const { user } = useSelector((state) => state.users);
-  const idOtherPeople = params?.id?.replace(/id\s?/, '');
+  const isAuth = useSelector(selectIsAuth);
+  const allInfoMe = useSelector((state: RootState) => state.auth.data);
+  const { user } = useSelector((state: RootState) => state.users);
+  const idOtherPeople = params?.id?.replace(/id\s?/, '') || '';
   const checkUser = idOtherPeople === allInfoMe?._id;
   const checkFriends = allInfoMe?.friends?.includes(idOtherPeople);
 
-  const dispatch = useDispatch();
-  const { posts } = useSelector((state) => state.posts);
-  const { userFriends } = useSelector((state) => state.users);
+  const dispatch = useAppDispatch();
+  const { posts } = useSelector((state: RootState) => state.posts);
+  const { userFriends } = useSelector((state: RootState) => state.users);
   const isPostsLoading = posts.status === 'loading';
 
   React.useEffect(() => {
-    dispatch(fetchAuthMe());
+    if (!isAuth) {
+      dispatch(fetchAuthMe());
+    }
     dispatch(fetchPosts());
-    dispatch(fetchUserById(idOtherPeople));
-    dispatch(fetchUserFriends(idOtherPeople));
+    if (idOtherPeople) {
+      dispatch(fetchUserById(idOtherPeople));
+      dispatch(fetchUserFriends(idOtherPeople));
+    }
     document.title = 'Моя страница';
     // eslint-disable-next-line
   }, []);
 
   React.useEffect(() => {
-    dispatch(fetchAuthMe());
-    dispatch(fetchUserById(idOtherPeople));
-    dispatch(fetchUserFriends(idOtherPeople));
-    // document.title = user.items ? user.items.fullName : 'Моя страница';
-    // eslint-disable-next-line
+    if (!isAuth) {
+      dispatch(fetchAuthMe());
+    }
+    if (idOtherPeople) {
+      dispatch(fetchUserById(idOtherPeople));
+      dispatch(fetchUserFriends(idOtherPeople));
+    }
   }, [idOtherPeople]);
 
-  const FriendDelOrAdd = (event) => {
-    if (event.target.innerHTML === 'Удалить из друзей') {
-      dispatch(fetchUserDeleteFriends(event.target.id));
-      event.target.innerHTML = 'Добавить в друзья';
-    } else if (event.target.innerHTML === 'Добавить в друзья') {
-      dispatch(fetchUserAddFriends(event.target.id));
-      event.target.innerHTML = 'Удалить из друзей';
+  const FriendDelOrAdd = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    if ((event.target as HTMLElement).innerHTML === 'Удалить из друзей') {
+      dispatch(fetchUserDeleteFriends((event.target as HTMLElement).id));
+      (event.target as HTMLElement).innerHTML = 'Добавить в друзья';
+    } else if ((event.target as HTMLElement).innerHTML === 'Добавить в друзья') {
+      dispatch(fetchUserAddFriends((event.target as HTMLElement).id));
+      (event.target as HTMLElement).innerHTML = 'Удалить из друзей';
     }
   };
 
-  if (!user.items || user.status === 'error') {
+  if (!idOtherPeople || !user.items) {
+    return <></>;
+  }
+
+  if (user.status === 'error') {
     return <NotFound />;
   }
+
   return (
     <div className="home">
       <div className="home__headerName">{user.items?.fullName}</div>
@@ -75,8 +88,11 @@ const Home = () => {
               //     : '/noavatar.jpg'
               // }
               onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = `/deletedImgAvatar.jpg`;
+                const { target } = e;
+                if (target instanceof HTMLImageElement) {
+                  target.onerror = null;
+                  target.src = `/deletedImgAvatar.jpg`;
+                }
               }}
               alt="avatar"></img>
           </div>
@@ -84,11 +100,17 @@ const Home = () => {
             <>
               <button className="home__sendMessage">Написать сообщение</button>
               {checkFriends ? (
-                <button className="home__addFriend" onClick={FriendDelOrAdd} id={idOtherPeople}>
+                <button
+                  className="home__addFriend"
+                  onClick={(event) => FriendDelOrAdd(event)}
+                  id={idOtherPeople}>
                   Удалить из друзей
                 </button>
               ) : (
-                <button className="home__addFriend" onClick={FriendDelOrAdd} id={idOtherPeople}>
+                <button
+                  className="home__addFriend"
+                  onClick={(event) => FriendDelOrAdd(event)}
+                  id={idOtherPeople}>
                   Добавить в друзья
                 </button>
               )}
@@ -115,8 +137,11 @@ const Home = () => {
                     // }
                     alt="avatar"
                     onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = `/deletedImgAvatar.jpg`;
+                      const { target } = e;
+                      if (target instanceof HTMLImageElement) {
+                        target.onerror = null;
+                        target.src = `/deletedImgAvatar.jpg`;
+                      }
                     }}></img>
                   <Link to={`/id${obj._id}`}>
                     <div>{obj.fullName}</div>
@@ -158,8 +183,11 @@ const Home = () => {
               //     : '/noavatar.jpg'
               // }
               onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = `/deletedImgAvatar.jpg`;
+                const { target } = e;
+                if (target instanceof HTMLImageElement) {
+                  target.onerror = null;
+                  target.src = `/deletedImgAvatar.jpg`;
+                }
               }}
               alt={user.items?.avatarUrl || '/noavatar.jpg'}></img>
           </div>
@@ -176,13 +204,14 @@ const Home = () => {
             ) : (
               <Post
                 key={obj._id}
-                id={obj._id}
+                _id={obj._id}
                 text={obj.text}
                 user={obj.user}
                 // imageUrl={obj.imageUrl ? `http://localhost:4444${obj.imageUrl}` : ''}
                 imageUrl={obj.imageUrl ? `${process.env.REACT_APP_API_URL}${obj.imageUrl}` : ''}
                 createdAt={obj.createdAt}
                 like={obj.like}
+                isLoading={false}
               />
             ),
           )}
@@ -191,5 +220,3 @@ const Home = () => {
     </div>
   );
 };
-
-export default Home;

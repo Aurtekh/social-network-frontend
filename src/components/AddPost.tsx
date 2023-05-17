@@ -2,15 +2,15 @@ import React from 'react';
 import TextField from '@mui/material/TextField';
 import axios from '../axios';
 import { fetchPosts } from '../redux/slices/posts';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../redux/store';
 
-export const AddPost = () => {
-  const dispatch = useDispatch();
+export const AddPost: React.FC = () => {
+  const dispatch = useAppDispatch();
   const [text, setText] = React.useState('');
-  const inputFileRef = React.useRef(null);
+  const inputFileRef = React.useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = React.useState('');
 
-  const handleChangeFile = async (event) => {
+  const handleChangeFile = async (event: { target: { files: (string | Blob)[] } }) => {
     try {
       const formData = new FormData();
       formData.append('image', event.target.files[0]);
@@ -65,11 +65,11 @@ export const AddPost = () => {
             Удалить фото
           </div>
         )}
-        <div onClick={() => inputFileRef.current.click()} className="textBtnBlue">
+        <div onClick={() => inputFileRef?.current?.click()} className="textBtnBlue">
           Добавить фото
         </div>
       </div>
-      <input ref={inputFileRef} type="file" onChange={handleChangeFile} hidden />
+      <input ref={inputFileRef} type="file" onChange={() => handleChangeFile} hidden />
       {imageUrl && (
         // <img className="imgUpload" src={`http://localhost:4444${imageUrl}`} alt="Uploaded" />
         <img

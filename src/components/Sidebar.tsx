@@ -1,9 +1,8 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-const Sidebar = () => {
-  const isMeId = useSelector((state) => state.auth.data);
+export const Sidebar: React.FC = () => {
+  const isMeId: any = useSelector<any>((state) => state.auth.data); //fix any
 
   return (
     <div className="sidebar">
@@ -44,5 +43,3 @@ const Sidebar = () => {
     </div>
   );
 };
-
-export default Sidebar;

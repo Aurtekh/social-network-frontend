@@ -1,7 +1,6 @@
-import React from 'react';
 import ContentLoader from 'react-content-loader';
 
-export const PostSkeleton = (props) => (
+export const PostSkeleton: React.FC = (props: any) => (
   <ContentLoader
     speed={2}
     width={400}

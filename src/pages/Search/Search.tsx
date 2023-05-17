@@ -1,8 +1,7 @@
 import React from 'react';
 import debounce from 'lodash.debounce';
 import { SearchSkeleton } from './Skeleton';
-
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { TextField } from '@mui/material';
 import {
   fetchSearchUsers,
@@ -10,40 +9,46 @@ import {
   fetchUserDeleteFriends,
 } from '../../redux/slices/users';
 import { Link } from 'react-router-dom';
-import { fetchAuthMe } from '../../redux/slices/auth';
-export const Search = () => {
-  const dispatch = useDispatch();
-  const allInfoMe = useSelector((state) => state.auth.data);
-  const { users } = useSelector((state) => state.users);
+import { fetchAuthMe, selectIsAuth } from '../../redux/slices/auth';
+import { RootState, useAppDispatch } from '../../redux/store';
+
+export const Search: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const isAuth = useSelector(selectIsAuth);
+  const allInfoMe = useSelector((state: RootState) => state.auth.data);
+  const { users } = useSelector((state: RootState) => state.users);
   const isUsersLoading = users.status === 'loading';
   const [value, setValue] = React.useState('');
   const isInfoMeLoading = allInfoMe?.status === 'loading';
   React.useEffect(() => {
-    dispatch(fetchAuthMe());
+    if (!isAuth) {
+      dispatch(fetchAuthMe());
+    }
     document.title = 'Поиск друзей';
   }, []);
 
   const updateSearchValue = React.useCallback(
-    debounce((str) => {
+    debounce((str: string) => {
       dispatch(fetchSearchUsers(str));
     }, 350),
     [],
   );
 
-  const onChangeInput = (event) => {
+  const onChangeInput = (event: { target: { value: React.SetStateAction<string> } }) => {
     setValue(event.target.value);
     updateSearchValue(event.target.value || 'empty');
   };
 
-  const FriendDelOrAdd = (event) => {
-    if (event.target.innerHTML === 'Удалить из друзей') {
-      dispatch(fetchUserDeleteFriends(event.target.id));
-      event.target.innerHTML = 'Добавить в друзья';
-    } else if (event.target.innerHTML === 'Добавить в друзья') {
-      dispatch(fetchUserAddFriends(event.target.id));
-      event.target.innerHTML = 'Удалить из друзей';
+  const FriendDelOrAdd = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    if ((event.target as HTMLElement).innerHTML === 'Удалить из друзей') {
+      dispatch(fetchUserDeleteFriends((event.target as HTMLElement).id));
+      (event.target as HTMLElement).innerHTML = 'Добавить в друзья';
+    } else if ((event.target as HTMLElement).innerHTML === 'Добавить в друзья') {
+      dispatch(fetchUserAddFriends((event.target as HTMLElement).id));
+      (event.target as HTMLElement).innerHTML = 'Удалить из друзей';
     }
   };
+
   if (isInfoMeLoading) {
     return <div>загрузка</div>;
   }
@@ -89,8 +94,11 @@ export const Search = () => {
                     // }
                     alt="avatar"
                     onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = `/deletedImgAvatar.jpg`;
+                      const { target } = e;
+                      if (target instanceof HTMLImageElement) {
+                        target.onerror = null;
+                        target.src = `/deletedImgAvatar.jpg`;
+                      }
                     }}></img>
                   <div>
                     <Link to={`/id${obj._id}`}>
@@ -101,12 +109,18 @@ export const Search = () => {
 
                   {allInfoMe?._id === obj._id ? (
                     <div>Это вы</div>
-                  ) : allInfoMe.friends.includes(obj._id) ? (
-                    <button className="search__button" onClick={FriendDelOrAdd} id={obj._id}>
+                  ) : allInfoMe?.friends.includes(obj._id) ? (
+                    <button
+                      className="search__button"
+                      onClick={(event) => FriendDelOrAdd(event)}
+                      id={obj._id}>
                       Удалить из друзей
                     </button>
                   ) : (
-                    <button className="search__button" onClick={FriendDelOrAdd} id={obj._id}>
+                    <button
+                      className="search__button"
+                      onClick={(event) => FriendDelOrAdd(event)}
+                      id={obj._id}>
                       Добавить в друзья
                     </button>
                   )}

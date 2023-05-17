@@ -1,37 +1,36 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchAuthMe } from '../redux/slices/auth';
+import { useSelector } from 'react-redux';
+import { fetchAuthMe, selectIsAuth } from '../redux/slices/auth';
 import { fetchUserDeleteFriends, fetchUserFriends } from '../redux/slices/users';
 import { Link } from 'react-router-dom';
-import SkeletonFriendsPage from '../components/SkeletonFriendsPage';
+import { SkeletonFriendsPage } from '../components/SkeletonFriendsPage';
+import { RootState, useAppDispatch } from '../redux/store';
 
-const Friends = () => {
-  const dispatch = useDispatch();
+const Friends: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const isAuth = useSelector(selectIsAuth);
   const [tabIndex, setTabIndex] = React.useState('0');
-  const allInfoMe = useSelector((state) => state.auth);
-  const { userFriends } = useSelector((state) => state.users);
+  const allInfoMe = useSelector((state: RootState) => state.auth);
+  const { userFriends } = useSelector((state: RootState) => state.users);
   const isInfoMeLoading = allInfoMe?.status === 'success';
-  const isFriendsLoading = userFriends.status === 'success';
+  const isFriendsLoading = userFriends?.status === 'success';
 
   React.useEffect(() => {
-    dispatch(fetchAuthMe());
+    if (!isAuth) {
+      dispatch(fetchAuthMe());
+    }
   }, []);
 
   React.useEffect(() => {
-    if (isInfoMeLoading === true) {
+    if (isInfoMeLoading === true && allInfoMe?.data?._id) {
       dispatch(fetchUserFriends(allInfoMe?.data?._id));
     }
-    document.title = allInfoMe.data
-      ? `Друзья ${allInfoMe.data?.fullName
-          .split(' ')
-          .map((item) => item + 'а')
-          .join(' ')}`
-      : 'Друзья';
+    document.title = 'Друзья';
   }, [isInfoMeLoading]);
 
-  const deleteFriend = (event) => {
+  const deleteFriend = (id: string) => {
     if (window.confirm('Вы действительно хотите удалить друга?')) {
-      dispatch(fetchUserDeleteFriends(event.target.id));
+      dispatch(fetchUserDeleteFriends(id));
       dispatch(fetchAuthMe());
     }
   };
@@ -78,8 +77,11 @@ const Friends = () => {
                     // }
                     alt="avatar"
                     onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = `/deletedImgAvatar.jpg`;
+                      const { target } = e;
+                      if (target instanceof HTMLImageElement) {
+                        target.onerror = null;
+                        target.src = `/deletedImgAvatar.jpg`;
+                      }
                     }}></img>
                   <div>
                     <Link to={`/id${obj._id}`}>
@@ -87,7 +89,10 @@ const Friends = () => {
                     </Link>
                     <div>Написать сообщение</div>
                   </div>
-                  <div className="friends__deleteFriends" onClick={deleteFriend} id={obj._id}>
+                  <div
+                    className="friends__deleteFriends"
+                    onClick={() => deleteFriend(obj._id)}
+                    id={obj._id}>
                     Удалить из друзей
                   </div>
                 </div>

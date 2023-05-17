@@ -1,17 +1,38 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from '../../axios';
+import { UserData } from './auth';
 
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
-  const { data } = await axios.get('/posts');
+  const { data } = await axios.get<Post[]>('/posts');
   return data;
 });
 
-export const fetchLikePosts = createAsyncThunk('posts/fetchLikePosts', async (id) => {
-  const { data } = await axios.get(`/posts/${id}`);
+export const fetchLikePosts = createAsyncThunk('posts/fetchLikePosts', async (id: string) => {
+  const { data } = await axios.get<Post>(`/posts/${id}`);
   return data;
 });
 
-const initialState = {
+export type Post = {
+  _id: string;
+  text: string;
+  like: [string];
+  viewsCount: number;
+  user: UserData;
+  imageUrl: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+type Posts = {
+  items: Post[];
+  status: string;
+};
+
+interface PostsSliceState {
+  posts: Posts;
+}
+
+const initialState: PostsSliceState = {
   posts: {
     items: [],
     status: 'loading',
@@ -21,14 +42,14 @@ const initialState = {
 const postSlice = createSlice({
   name: 'posts',
   initialState,
-  reducer: {},
+  reducers: {},
   extraReducers: (builder) => {
     // Получение статей
     builder.addCase(fetchPosts.pending, (state) => {
       state.posts.status = 'loading';
       state.posts.items = [];
     });
-    builder.addCase(fetchPosts.fulfilled, (state, action) => {
+    builder.addCase(fetchPosts.fulfilled, (state, action: PayloadAction<Post[]>) => {
       state.posts.status = 'success';
       state.posts.items = action.payload;
     });

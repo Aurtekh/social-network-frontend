@@ -1,7 +1,6 @@
-import React from 'react';
 import ContentLoader from 'react-content-loader';
 
-export const SearchSkeleton = (props) => (
+export const SearchSkeleton: React.FC = (props: any) => (
   <ContentLoader
     speed={2}
     width={630}

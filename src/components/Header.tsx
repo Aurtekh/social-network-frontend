@@ -1,14 +1,14 @@
-import React from 'react';
 import logo from '../assets/img/logoOld.jpg';
 import { logout, selectIsAuth } from '../redux/slices/auth';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { RootState, useAppDispatch } from '../redux/store';
 
-const Header = () => {
-  const isMeId = useSelector((state) => state.auth.data);
+const Header: React.FC = () => {
+  const isMeId = useSelector((state: RootState) => state.auth.data);
   const isAuth = useSelector(selectIsAuth);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const onClickLogout = () => {
@@ -24,7 +24,7 @@ const Header = () => {
       <div className="header__wrapper">
         <div className="header__wrapper__left">
           <Link
-            to={isAuth ? `/id${isMeId._id || ''}` : '/auth'}
+            to={isAuth ? `/id${isMeId?._id || ''}` : '/auth'}
             style={{ display: 'block', height: '20px' }}>
             <img className="header__logo" src={logo} alt="Олдтакте" />
           </Link>

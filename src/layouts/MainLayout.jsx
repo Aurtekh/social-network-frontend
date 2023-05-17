@@ -1,11 +1,11 @@
 import React from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 import Header from '../components/Header';
-import Sidebar from '../components/Sidebar';
+import { Sidebar } from '../components/Sidebar';
 import { Login } from '../components/Login';
 import { selectIsAuth } from '../redux/slices/auth';
 import { useSelector } from 'react-redux';
-import SkeletonsSidebar from '../components/Skeletons/SkeletonsSidebar';
+import { SkeletonsSidebar } from '../components/Skeletons/SkeletonsSidebar';
 
 const MainLayout = () => {
   const navigate = useNavigate();

@@ -1,13 +1,14 @@
 import React from 'react';
 import { Post } from '../components/Post';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { fetchPosts } from '../redux/slices/posts';
+import { RootState, useAppDispatch } from '../redux/store';
 
-export const News = () => {
+export const News: React.FC = () => {
   const [navIndex, setNavIndex] = React.useState('0');
   const [postSortIndex, setpostSortIndex] = React.useState('0');
-  const dispatch = useDispatch();
-  const { posts } = useSelector((state) => state.posts);
+  const dispatch = useAppDispatch();
+  const { posts } = useSelector((state: RootState) => state.posts);
   const isPostsLoading = posts.status === 'loading';
 
   React.useEffect(() => {
@@ -62,13 +63,14 @@ export const News = () => {
         ) : (
           <div className="news__containerList" key={obj._id}>
             <Post
-              id={obj._id}
+              _id={obj._id}
               text={obj.text}
               user={obj.user}
               // imageUrl={obj.imageUrl ? `http://localhost:4444${obj.imageUrl}` : ''}
               imageUrl={obj.imageUrl ? `${process.env.REACT_APP_API_URL}${obj.imageUrl}` : ''}
               createdAt={obj.createdAt}
               like={obj.like}
+              isLoading={false}
             />
           </div>
         ),

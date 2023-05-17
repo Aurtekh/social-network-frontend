@@ -1,22 +1,61 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import axios from '../../axios';
+import { RootState } from '../store';
 
-export const fetchAuth = createAsyncThunk('auth/fetchAuth', async (params) => {
-  const { data } = await axios.post('/auth/login', params);
-  return data;
-});
+export const fetchAuth = createAsyncThunk<UserData, fetchAuthArgs>(
+  'auth/fetchAuth',
+  async (params) => {
+    const { data } = await axios.post<UserData>('/auth/login', params);
+    return data;
+  },
+);
 
 export const fetchAuthMe = createAsyncThunk('auth/fetchAuthMe', async () => {
-  const { data } = await axios.get('/auth/me');
+  const { data } = await axios.get<UserData>('/auth/me');
   return data;
 });
 
-export const fetchRegister = createAsyncThunk('auth/fetchRegister', async (params) => {
-  const { data } = await axios.post('/auth/register', params);
-  return data;
-});
+type fetchAuthArgs = {
+  email: string;
+  password: string;
+};
 
-const initialState = {
+type fetchRegisterArgs = {
+  email: string;
+  password: string;
+  fullName: string;
+};
+
+export const fetchRegister = createAsyncThunk(
+  'auth/fetchRegister',
+  async (params: fetchRegisterArgs) => {
+    const { data } = await axios.post('/auth/register', params);
+    return data;
+  },
+);
+
+export type UserData = {
+  _id: string;
+  fullName: string;
+  email: string;
+  friends: [string];
+  status: string;
+  birthday: string;
+  city: string;
+  avatarUrl: string;
+  language: string;
+  university: string;
+  createdAt: string;
+  updatedAt: string;
+  token?: string;
+};
+
+interface AuthSliceState {
+  data: UserData | null;
+  status: string;
+}
+
+const initialState: AuthSliceState = {
   data: null,
   status: 'loading',
 };
@@ -35,7 +74,7 @@ const authSlice = createSlice({
       state.status = 'loading';
       state.data = null;
     });
-    builder.addCase(fetchAuth.fulfilled, (state, action) => {
+    builder.addCase(fetchAuth.fulfilled, (state, action: PayloadAction<UserData>) => {
       state.status = 'success';
       state.data = action.payload;
     });
@@ -48,7 +87,7 @@ const authSlice = createSlice({
       state.status = 'loading';
       state.data = null;
     });
-    builder.addCase(fetchAuthMe.fulfilled, (state, action) => {
+    builder.addCase(fetchAuthMe.fulfilled, (state, action: PayloadAction<UserData>) => {
       state.status = 'success';
       state.data = action.payload;
     });
@@ -62,7 +101,7 @@ const authSlice = createSlice({
       state.status = 'loading';
       state.data = null;
     });
-    builder.addCase(fetchRegister.fulfilled, (state, action) => {
+    builder.addCase(fetchRegister.fulfilled, (state, action: PayloadAction<UserData>) => {
       state.status = 'success';
       state.data = action.payload;
     });
@@ -73,7 +112,7 @@ const authSlice = createSlice({
   },
 });
 
-export const selectIsAuth = (state) => Boolean(state.auth.data);
+export const selectIsAuth = (state: RootState) => Boolean(state.auth.data);
 
 export const authReducer = authSlice.reducer;
 
