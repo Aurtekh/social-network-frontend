@@ -11,14 +11,14 @@ import { EditProfile } from './pages/EditProfile';
 import { Auth } from './pages/Auth';
 
 import { fetchAuthMe } from './redux/slices/auth';
-import { useDispatch } from 'react-redux';
 import { NotFound } from './pages/NotFound';
+import { useAppDispatch } from './redux/store';
 
 function App() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   React.useEffect(() => {
-    dispatch<any>(fetchAuthMe()); //fix any
+    dispatch(fetchAuthMe());
   }, []);
 
   return (
