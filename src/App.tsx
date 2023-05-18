@@ -25,15 +25,15 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<MainLayout />}>
-          <Route path="/:id" element={<Home />} />
+          {/* <Route path="/:id" element={<Home />} /> */}
           <Route path="/im" element={<Message />} />
           <Route path="/im/:id" element={<Message />} />
-          <Route path="/friends" element={<Friends />} />
+          {/* <Route path="/friends" element={<Friends />} />
           <Route path="/news" element={<News />} />
           <Route path="/search" element={<Search />} />
           <Route path="/edit" element={<EditProfile />} />
           <Route path="/auth" element={<Auth />} />
-          <Route path="*" element={<NotFound />} />
+          <Route path="*" element={<NotFound />} /> */}
         </Route>
       </Routes>
     </>
