@@ -65,7 +65,9 @@ export const AddPost: React.FC = () => {
             Удалить фото
           </div>
         )}
-        <div onClick={() => inputFileRef?.current?.click()} className="textBtnBlue">
+        <div
+          onClick={() => (inputFileRef.current as HTMLInputElement).click()}
+          className="textBtnBlue">
           Добавить фото
         </div>
       </div>
