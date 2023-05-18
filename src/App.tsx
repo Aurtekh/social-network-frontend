@@ -1,6 +1,6 @@
 import './scss/app.scss';
 import React from 'react';
-import MainLayout from './layouts/MainLayout';
+// import MainLayout from './layouts/MainLayout';
 import { Route, Routes } from 'react-router-dom';
 import Friends from './pages/Friends';
 import { Home } from './pages/Home';
@@ -24,17 +24,17 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<MainLayout />}>
-          <Route path="/:id" element={<Home />} />
-          <Route path="/im" element={<Message />} />
-          <Route path="/im/:id" element={<Message />} />
-          <Route path="/friends" element={<Friends />} />
-          <Route path="/news" element={<News />} />
-          <Route path="/search" element={<Search />} />
-          <Route path="/edit" element={<EditProfile />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="*" element={<NotFound />} />
-        </Route>
+        {/* <Route path="/" element={<MainLayout />}> */}
+        <Route path="/:id" element={<Home />} />
+        <Route path="/im" element={<Message />} />
+        <Route path="/im/:id" element={<Message />} />
+        <Route path="/friends" element={<Friends />} />
+        <Route path="/news" element={<News />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/edit" element={<EditProfile />} />
+        <Route path="/auth" element={<Auth />} />
+        <Route path="*" element={<NotFound />} />
+        {/* </Route> */}
       </Routes>
     </>
   );
