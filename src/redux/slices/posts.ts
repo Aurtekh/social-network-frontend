@@ -61,3 +61,5 @@
 // });
 
 // export const postsReducer = postSlice.reducer;
+
+export {};

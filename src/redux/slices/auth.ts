@@ -134,3 +134,5 @@
 // export const authReducer = authSlice.reducer;
 
 // export const { logout } = authSlice.actions;
+
+export {};
