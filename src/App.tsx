@@ -10,16 +10,16 @@ import { Search } from './pages/Search/Search';
 import { EditProfile } from './pages/EditProfile';
 import { Auth } from './pages/Auth';
 
-import { fetchAuthMe } from './redux/slices/auth';
+// import { fetchAuthMe } from './redux/slices/auth';
 import { NotFound } from './pages/NotFound';
-import { useAppDispatch } from './redux/store';
+// import { useAppDispatch } from './redux/store';
 
 function App() {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
-  React.useEffect(() => {
-    dispatch(fetchAuthMe());
-  }, []);
+  // React.useEffect(() => {
+  //   dispatch(fetchAuthMe());
+  // }, []);
 
   return (
     <>
