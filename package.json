@@ -2,6 +2,7 @@
   "name": "social-network-frontend",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://aurtekh.github.io/social-network-frontend/",
   "dependencies": {
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
@@ -24,7 +25,7 @@
     "react-router-dom": "^6.11.1",
     "react-scripts": "5.0.1",
     "sass": "^1.62.1",
-    "typescript": "^5.0.4",
+    "typescript": "^3.2.1",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
