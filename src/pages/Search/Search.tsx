@@ -12,6 +12,9 @@ import { Link } from 'react-router-dom';
 import { fetchAuthMe, selectIsAuth } from '../../redux/slices/auth';
 import { RootState, useAppDispatch } from '../../redux/store';
 
+import deleteImgAvatar from '../../assets/img/deletedImgAvatar.jpg';
+import noAvatar from '../../assets/img/noavatar.jpg';
+
 export const Search: React.FC = () => {
   const dispatch = useAppDispatch();
   const isAuth = useSelector(selectIsAuth);
@@ -19,7 +22,7 @@ export const Search: React.FC = () => {
   const { users } = useSelector((state: RootState) => state.users);
   const isUsersLoading = users.status === 'loading';
   const [value, setValue] = React.useState('');
-  const isInfoMeLoading = allInfoMe?.status === 'loading';
+  const isInfoMeLoading = allInfoMe.status === 'loading';
   React.useEffect(() => {
     if (!isAuth) {
       dispatch(fetchAuthMe());
@@ -58,7 +61,7 @@ export const Search: React.FC = () => {
         <div className="search__nav">Люди</div>
       </div>
       <div className="line-gray"></div>
-      <div className="search__peopleFound">Люди {users?.items?.length || 0}</div>
+      <div className="search__peopleFound">Люди {users.items.length || 0}</div>
       <div className="line-gray"></div>
       <div className="search__container">
         <TextField
@@ -83,33 +86,28 @@ export const Search: React.FC = () => {
                   <img
                     className="search__avatar"
                     src={
-                      obj?.avatarUrl !== ''
-                        ? `${process.env.REACT_APP_API_URL}${obj?.avatarUrl}`
-                        : '/noavatar.jpg'
+                      obj.avatarUrl !== ''
+                        ? `${process.env.REACT_APP_API_URL}${obj.avatarUrl}`
+                        : noAvatar
                     }
-                    // src={
-                    //   obj?.avatarUrl !== ''
-                    //     ? `http://localhost:4444${obj?.avatarUrl}`
-                    //     : '/noavatar.jpg'
-                    // }
                     alt="avatar"
                     onError={(e) => {
                       const { target } = e;
                       if (target instanceof HTMLImageElement) {
                         target.onerror = null;
-                        target.src = `/deletedImgAvatar.jpg`;
+                        target.src = deleteImgAvatar;
                       }
                     }}></img>
                   <div>
                     <Link to={`/id${obj._id}`}>
-                      <div className="search__name">{obj?.fullName}</div>
+                      <div className="search__name">{obj.fullName}</div>
                     </Link>
-                    <div className="search__city">{obj?.city || ''}</div>
+                    <div className="search__city">{obj.city || ''}</div>
                   </div>
 
-                  {allInfoMe?._id === obj._id ? (
+                  {allInfoMe._id === obj._id ? (
                     <div>Это вы</div>
-                  ) : allInfoMe?.friends.includes(obj._id) ? (
+                  ) : allInfoMe.friends.includes(obj._id) ? (
                     <button
                       className="search__button"
                       onClick={(event) => FriendDelOrAdd(event)}

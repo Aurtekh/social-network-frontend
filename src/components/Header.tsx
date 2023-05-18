@@ -1,5 +1,5 @@
 import logo from '../assets/img/logoOld.jpg';
-import { logout, selectIsAuth } from '../redux/slices/auth';
+import { UserData, logout, selectIsAuth } from '../redux/slices/auth';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
@@ -24,7 +24,7 @@ const Header: React.FC = () => {
       <div className="header__wrapper">
         <div className="header__wrapper__left">
           <Link
-            to={isAuth ? `/id${isMeId?._id || ''}` : '/auth'}
+            to={isAuth ? `/id${(isMeId as UserData)._id || ''}` : '/auth'}
             style={{ display: 'block', height: '20px' }}>
             <img className="header__logo" src={logo} alt="Олдтакте" />
           </Link>

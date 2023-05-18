@@ -6,13 +6,14 @@ import { Login } from '../components/Login';
 import { selectIsAuth } from '../redux/slices/auth';
 import { useSelector } from 'react-redux';
 import { SkeletonsSidebar } from '../components/Skeletons/SkeletonsSidebar';
+import { RootState } from '../redux/store';
 
 const MainLayout = () => {
   const navigate = useNavigate();
-  const Auth = useSelector((state) => state.auth);
+  const Auth = useSelector((state: RootState) => state.auth);
   const pathname = window.location.pathname;
   const isAuth = useSelector(selectIsAuth);
-  const isAuthLoading = Auth.status === 'loading';
+  const isAuthLoading = Auth.status;
   React.useEffect(() => {
     if (pathname === '/') {
       if (window.localStorage.getItem('token')) {
@@ -25,9 +26,15 @@ const MainLayout = () => {
 
   return (
     <div className="wrapper">
-      <Header pathname={pathname} />
+      <Header />
       <div className="content">
-        {isAuthLoading ? <SkeletonsSidebar /> : isAuth ? <Sidebar /> : <Login />}
+        {isAuthLoading === 'loading' ? (
+          <SkeletonsSidebar />
+        ) : isAuthLoading === 'success' && isAuth ? (
+          <Sidebar />
+        ) : (
+          <Login />
+        )}
         <Outlet />
       </div>
     </div>

@@ -10,13 +10,13 @@ export const EditProfile: React.FC = () => {
   const infoAboutMe = useSelector((state: RootState) => state.auth.data);
   const inputFileRef = React.useRef<HTMLInputElement>(null);
 
-  const [fullName, setFullName] = React.useState(infoAboutMe?.fullName || '');
-  const [status, setStatus] = React.useState(infoAboutMe?.status || '');
-  const [birthday, setBirthday] = React.useState(infoAboutMe?.birthday || '');
-  const [city, setCity] = React.useState(infoAboutMe?.city || '');
-  const [language, setLanguage] = React.useState(infoAboutMe?.language || '');
-  const [university, setuniversity] = React.useState(infoAboutMe?.university || '');
-  const [avatarUrl, setAvatarUrl] = React.useState(infoAboutMe?.avatarUrl || '');
+  const [fullName, setFullName] = React.useState(infoAboutMe.fullName);
+  const [status, setStatus] = React.useState(infoAboutMe.status);
+  const [birthday, setBirthday] = React.useState(infoAboutMe.birthday);
+  const [city, setCity] = React.useState(infoAboutMe.city);
+  const [language, setLanguage] = React.useState(infoAboutMe.language);
+  const [university, setuniversity] = React.useState(infoAboutMe.university);
+  const [avatarUrl, setAvatarUrl] = React.useState(infoAboutMe.avatarUrl);
 
   const handleChangeFile = async (event: { target: { files: (string | Blob)[] } }) => {
     try {
@@ -50,7 +50,7 @@ export const EditProfile: React.FC = () => {
         alert('Имя не должно быть пустым');
         return;
       }
-      await axios.patch(`/me/${infoAboutMe?._id}`, fields);
+      await axios.patch(`/me/${infoAboutMe._id}`, fields);
       dispatch(fetchAuthMe());
     } catch (err) {
       console.warn(err);
@@ -125,7 +125,9 @@ export const EditProfile: React.FC = () => {
         </div>
       </div>
       <div className="editProfile__flexWrapper">
-        <div className="textBtnBlue" onClick={() => inputFileRef?.current?.click()}>
+        <div
+          className="textBtnBlue"
+          onClick={() => (inputFileRef.current as HTMLInputElement).click()}>
           Добавить фото
         </div>
         {avatarUrl && (
@@ -136,7 +138,6 @@ export const EditProfile: React.FC = () => {
       </div>
       <input ref={inputFileRef} type="file" onChange={() => handleChangeFile} hidden />
       {avatarUrl && (
-        // <img className="imgUpload" src={`http://localhost:4444${avatarUrl}`} alt="Uploaded" />
         <img
           className="imgUpload"
           src={`${process.env.REACT_APP_API_URL}${avatarUrl}`}

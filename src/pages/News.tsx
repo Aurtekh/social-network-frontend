@@ -3,8 +3,11 @@ import { Post } from '../components/Post';
 import { useSelector } from 'react-redux';
 import { fetchPosts } from '../redux/slices/posts';
 import { RootState, useAppDispatch } from '../redux/store';
+import { selectIsAuth } from '../redux/slices/auth';
+import { PostSkeleton } from '../components/Post/Skeleton';
 
 export const News: React.FC = () => {
+  const isAuth = useSelector(selectIsAuth);
   const [navIndex, setNavIndex] = React.useState('0');
   const [postSortIndex, setpostSortIndex] = React.useState('0');
   const dispatch = useAppDispatch();
@@ -20,6 +23,12 @@ export const News: React.FC = () => {
     // eslint-disable-next-line
   }, []);
 
+  if (!isAuth) {
+    return <>загрузка1</>;
+  }
+  if (!posts) {
+    return <>загрузка1</>;
+  }
   return (
     <div className="news">
       <div className="news__container">
@@ -57,7 +66,7 @@ export const News: React.FC = () => {
       {(isPostsLoading ? [...Array(5)] : posts.items).map((obj, index) =>
         isPostsLoading ? (
           <div className="news__containerList" key={index}>
-            <Post key={index} isLoading={true} />
+            <PostSkeleton key={index} />
             <div className="line-grayMargin"></div>
           </div>
         ) : (
@@ -66,11 +75,9 @@ export const News: React.FC = () => {
               _id={obj._id}
               text={obj.text}
               user={obj.user}
-              // imageUrl={obj.imageUrl ? `http://localhost:4444${obj.imageUrl}` : ''}
-              imageUrl={obj.imageUrl ? `${process.env.REACT_APP_API_URL}${obj.imageUrl}` : ''}
+              imageUrl={obj.imageUrl}
               createdAt={obj.createdAt}
               like={obj.like}
-              isLoading={false}
             />
           </div>
         ),

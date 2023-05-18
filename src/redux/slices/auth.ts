@@ -38,7 +38,7 @@ export type UserData = {
   _id: string;
   fullName: string;
   email: string;
-  friends: [string];
+  friends: Array<string>;
   status: string;
   birthday: string;
   city: string;
@@ -51,12 +51,28 @@ export type UserData = {
 };
 
 interface AuthSliceState {
-  data: UserData | null;
+  data: UserData;
   status: string;
 }
 
+const defaultUserData: UserData = {
+  _id: '',
+  fullName: '',
+  email: '',
+  friends: [],
+  status: '',
+  birthday: '',
+  city: '',
+  avatarUrl: '',
+  language: '',
+  university: '',
+  createdAt: '',
+  updatedAt: '',
+  token: undefined,
+};
+
 const initialState: AuthSliceState = {
-  data: null,
+  data: defaultUserData,
   status: 'loading',
 };
 
@@ -65,14 +81,15 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout: (state) => {
-      state.data = null;
+      state.data = defaultUserData;
+      state.status = 'error';
     },
   },
   extraReducers: (builder) => {
     //Запрос на авторизацию
     builder.addCase(fetchAuth.pending, (state) => {
       state.status = 'loading';
-      state.data = null;
+      state.data = defaultUserData;
     });
     builder.addCase(fetchAuth.fulfilled, (state, action: PayloadAction<UserData>) => {
       state.status = 'success';
@@ -80,12 +97,12 @@ const authSlice = createSlice({
     });
     builder.addCase(fetchAuth.rejected, (state) => {
       state.status = 'error';
-      state.data = null;
+      state.data = defaultUserData;
     });
     //Инфо обо мне
     builder.addCase(fetchAuthMe.pending, (state) => {
       state.status = 'loading';
-      state.data = null;
+      state.data = defaultUserData;
     });
     builder.addCase(fetchAuthMe.fulfilled, (state, action: PayloadAction<UserData>) => {
       state.status = 'success';
@@ -93,13 +110,13 @@ const authSlice = createSlice({
     });
     builder.addCase(fetchAuthMe.rejected, (state) => {
       state.status = 'error';
-      state.data = null;
+      state.data = defaultUserData;
     });
 
     //Регистрация
     builder.addCase(fetchRegister.pending, (state) => {
       state.status = 'loading';
-      state.data = null;
+      state.data = defaultUserData;
     });
     builder.addCase(fetchRegister.fulfilled, (state, action: PayloadAction<UserData>) => {
       state.status = 'success';
@@ -107,7 +124,7 @@ const authSlice = createSlice({
     });
     builder.addCase(fetchRegister.rejected, (state) => {
       state.status = 'error';
-      state.data = null;
+      state.data = defaultUserData;
     });
   },
 });

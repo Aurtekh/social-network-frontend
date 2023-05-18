@@ -5,6 +5,8 @@ import { fetchUserDeleteFriends, fetchUserFriends } from '../redux/slices/users'
 import { Link } from 'react-router-dom';
 import { SkeletonFriendsPage } from '../components/SkeletonFriendsPage';
 import { RootState, useAppDispatch } from '../redux/store';
+import deleteImgAvatar from '../assets/img/deletedImgAvatar.jpg';
+import noAvatar from '../assets/img/noavatar.jpg';
 
 const Friends: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -12,8 +14,8 @@ const Friends: React.FC = () => {
   const [tabIndex, setTabIndex] = React.useState('0');
   const allInfoMe = useSelector((state: RootState) => state.auth);
   const { userFriends } = useSelector((state: RootState) => state.users);
-  const isInfoMeLoading = allInfoMe?.status === 'success';
-  const isFriendsLoading = userFriends?.status === 'success';
+  const isInfoMeLoading = allInfoMe.status === 'success';
+  const isFriendsLoading = userFriends.status === 'success';
 
   React.useEffect(() => {
     if (!isAuth) {
@@ -22,8 +24,8 @@ const Friends: React.FC = () => {
   }, []);
 
   React.useEffect(() => {
-    if (isInfoMeLoading === true && allInfoMe?.data?._id) {
-      dispatch(fetchUserFriends(allInfoMe?.data?._id));
+    if (isInfoMeLoading === true && allInfoMe.data._id) {
+      dispatch(fetchUserFriends(allInfoMe.data._id));
     }
     document.title = 'Друзья';
   }, [isInfoMeLoading]);
@@ -41,7 +43,7 @@ const Friends: React.FC = () => {
         <div
           className={`friends__tab ${tabIndex === '0' ? 'active' : ''}`}
           onClick={() => setTabIndex('0')}>
-          Все друзья {userFriends.items?.length}
+          Все друзья {userFriends.items.length || 0}
         </div>
         {/* <div
           className={`friends__tab ${tabIndex === '1' ? 'active' : ''}`}
@@ -68,19 +70,14 @@ const Friends: React.FC = () => {
                     src={
                       obj.avatarUrl !== ''
                         ? `${process.env.REACT_APP_API_URL}${obj.avatarUrl}`
-                        : '/noavatar.jpg'
+                        : noAvatar
                     }
-                    // src={
-                    //   obj.avatarUrl !== ''
-                    //     ? `http://localhost:4444${obj.avatarUrl}`
-                    //     : '/noavatar.jpg'
-                    // }
                     alt="avatar"
                     onError={(e) => {
                       const { target } = e;
                       if (target instanceof HTMLImageElement) {
                         target.onerror = null;
-                        target.src = `/deletedImgAvatar.jpg`;
+                        target.src = deleteImgAvatar;
                       }
                     }}></img>
                   <div>

@@ -45,8 +45,8 @@ export const Login = () => {
         <TextField
           size="small"
           margin="dense"
-          error={Boolean(errors.email?.message)}
-          helperText={errors.email?.message}
+          error={Boolean(errors.email ? (errors.email as { message: string }).message : '')}
+          helperText={errors.email ? (errors.email as { message: string }).message : ''}
           type="email"
           {...register('email', { required: 'Укажите почту' })}
           fullWidth
@@ -55,8 +55,8 @@ export const Login = () => {
         <TextField
           size="small"
           margin="dense"
-          error={Boolean(errors.password?.message)}
-          helperText={errors.password?.message}
+          error={Boolean(errors.password ? (errors.password as { message: string }).message : '')}
+          helperText={errors.password ? (errors.password as { message: string }).message : ''}
           {...register('password', { required: 'Укажите пароль' })}
           fullWidth
         />

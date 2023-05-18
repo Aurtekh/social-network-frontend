@@ -13,15 +13,19 @@ import {
 import { NotFound } from './NotFound';
 import { fetchAuthMe, selectIsAuth } from '../redux/slices/auth';
 import { RootState, useAppDispatch } from '../redux/store';
+import { PostSkeleton } from '../components/Post/Skeleton';
+
+import deleteImgAvatar from '../assets/img/deletedImgAvatar.jpg';
+import noAvatar from '../assets/img/noavatar.jpg';
 
 export const Home: React.FC = () => {
   const params = useParams();
   const isAuth = useSelector(selectIsAuth);
   const allInfoMe = useSelector((state: RootState) => state.auth.data);
   const { user } = useSelector((state: RootState) => state.users);
-  const idOtherPeople = params?.id?.replace(/id\s?/, '') || '';
-  const checkUser = idOtherPeople === allInfoMe?._id;
-  const checkFriends = allInfoMe?.friends?.includes(idOtherPeople);
+  const idOtherPeople = params.id ? params.id.replace(/id\s?/, '') : '';
+  const checkUser = idOtherPeople === allInfoMe._id;
+  const checkFriends = allInfoMe.friends.includes(idOtherPeople);
 
   const dispatch = useAppDispatch();
   const { posts } = useSelector((state: RootState) => state.posts);
@@ -42,9 +46,8 @@ export const Home: React.FC = () => {
   }, []);
 
   React.useEffect(() => {
-    if (!isAuth) {
-      dispatch(fetchAuthMe());
-    }
+    dispatch(fetchAuthMe());
+
     if (idOtherPeople) {
       dispatch(fetchUserById(idOtherPeople));
       dispatch(fetchUserFriends(idOtherPeople));
@@ -62,36 +65,33 @@ export const Home: React.FC = () => {
   };
 
   if (!idOtherPeople || !user.items) {
-    return <></>;
+    return <>загрузка</>;
   }
 
   if (user.status === 'error') {
     return <NotFound />;
   }
-
+  if (!isAuth) {
+    return <>загрузка1</>;
+  }
   return (
     <div className="home">
-      <div className="home__headerName">{user.items?.fullName}</div>
+      <div className="home__headerName">{user.items.fullName}</div>
       <div className="home__wrapperGrid">
         <div className="home__wrapperFlex__left">
           <div className="home__wrapperAvatar">
             <img
               className="home__avatar"
               src={
-                user.items?.avatarUrl !== ''
-                  ? `${process.env.REACT_APP_API_URL}${user.items?.avatarUrl}`
-                  : '/noavatar.jpg'
+                user.items.avatarUrl !== ''
+                  ? `${process.env.REACT_APP_API_URL}${user.items.avatarUrl}`
+                  : noAvatar
               }
-              // src={
-              //   user.items?.avatarUrl !== ''
-              //     ? `http://localhost:4444${user.items?.avatarUrl}`
-              //     : '/noavatar.jpg'
-              // }
               onError={(e) => {
                 const { target } = e;
                 if (target instanceof HTMLImageElement) {
                   target.onerror = null;
-                  target.src = `/deletedImgAvatar.jpg`;
+                  target.src = deleteImgAvatar;
                 }
               }}
               alt="avatar"></img>
@@ -118,7 +118,7 @@ export const Home: React.FC = () => {
           )}
 
           <div className="home__friends">Друзья</div>
-          <div className="home__friends__count">{user.items?.friends?.length} друзей</div>
+          <div className="home__friends__count">{user.items.friends.length} друзей</div>
           <div className="home__friends__listWrapper">
             {userFriends.items.map((obj, index) => {
               return (
@@ -128,19 +128,14 @@ export const Home: React.FC = () => {
                     src={
                       obj.avatarUrl !== ''
                         ? `${process.env.REACT_APP_API_URL}${obj.avatarUrl}`
-                        : '/noavatar.jpg'
+                        : noAvatar
                     }
-                    // src={
-                    //   obj.avatarUrl !== ''
-                    //     ? `http://localhost:4444${obj.avatarUrl}`
-                    //     : '/noavatar.jpg'
-                    // }
                     alt="avatar"
                     onError={(e) => {
                       const { target } = e;
                       if (target instanceof HTMLImageElement) {
                         target.onerror = null;
-                        target.src = `/deletedImgAvatar.jpg`;
+                        target.src = deleteImgAvatar;
                       }
                     }}></img>
                   <Link to={`/id${obj._id}`}>
@@ -152,18 +147,18 @@ export const Home: React.FC = () => {
           </div>
         </div>
         <div className="home__wrapperFlex__right">
-          <div className="home__name">{user.items?.fullName}</div>
-          <div className="home__status">{user.items?.status}</div>
+          <div className="home__name">{user.items.fullName}</div>
+          <div className="home__status">{user.items.status}</div>
           <div className="line-gray"></div>
           <div className="home__wrapperInfo">
             <div className="home__aboutMe">День рождения:</div>
-            <div className="home__aboutMeInfo">{user.items?.birthday}</div>
+            <div className="home__aboutMeInfo">{user.items.birthday}</div>
             <div className="home__aboutMe">Город:</div>
-            <div className="home__aboutMeInfo">{user.items?.city}</div>
+            <div className="home__aboutMeInfo">{user.items.city}</div>
             <div className="home__aboutMe">Язык:</div>
-            <div className="home__aboutMeInfo">{user.items?.language}</div>
+            <div className="home__aboutMeInfo">{user.items.language}</div>
             <div className="home__aboutMe">Вуз:</div>
-            <div className="home__aboutMeInfo">{user.items?.university}</div>
+            <div className="home__aboutMeInfo">{user.items.university}</div>
           </div>
           <div className="home__photo">
             <div className="home__photo__count">1 фотография</div>
@@ -173,45 +168,38 @@ export const Home: React.FC = () => {
             <img
               className="home__photoListWrapper__list"
               src={
-                user.items?.avatarUrl !== ''
-                  ? `${process.env.REACT_APP_API_URL}${user.items?.avatarUrl}`
-                  : '/noavatar.jpg'
+                user.items.avatarUrl !== ''
+                  ? `${process.env.REACT_APP_API_URL}${user.items.avatarUrl}`
+                  : noAvatar
               }
-              // src={
-              //   user.items?.avatarUrl !== ''
-              //     ? `http://localhost:4444${user.items?.avatarUrl}`
-              //     : '/noavatar.jpg'
-              // }
               onError={(e) => {
                 const { target } = e;
                 if (target instanceof HTMLImageElement) {
                   target.onerror = null;
-                  target.src = `/deletedImgAvatar.jpg`;
+                  target.src = deleteImgAvatar;
                 }
               }}
-              alt={user.items?.avatarUrl || '/noavatar.jpg'}></img>
+              alt={user.items.avatarUrl || noAvatar}></img>
           </div>
           <div className="home__posts">
             <div className="home__posts__count">
-              {posts?.items?.map((obj) => obj.user._id === idOtherPeople).filter(Boolean).length}{' '}
+              {posts.items.map((obj) => obj.user._id === idOtherPeople).filter(Boolean).length}{' '}
               записей
             </div>
           </div>
           {checkUser && <AddPost />}
           {(isPostsLoading ? [...Array(5)] : posts.items).map((obj, index) =>
             isPostsLoading ? (
-              <Post key={index} isLoading={true} />
+              <PostSkeleton key={index} />
             ) : (
               <Post
                 key={obj._id}
                 _id={obj._id}
                 text={obj.text}
                 user={obj.user}
-                // imageUrl={obj.imageUrl ? `http://localhost:4444${obj.imageUrl}` : ''}
                 imageUrl={obj.imageUrl ? `${process.env.REACT_APP_API_URL}${obj.imageUrl}` : ''}
                 createdAt={obj.createdAt}
                 like={obj.like}
-                isLoading={false}
               />
             ),
           )}
