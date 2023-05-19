@@ -8,7 +8,7 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
 });
 
 export const fetchSortPosts = createAsyncThunk('posts/fetchSortPosts', async (id: string) => {
-  const { data } = await axios.get<Post[]>('/posts');
+  const { data } = await axios.get<Post[]>(`/posts/sort/${id}`);
   return data;
 });
 
