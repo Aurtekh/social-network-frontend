@@ -7,6 +7,11 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
   return data;
 });
 
+export const fetchSortPosts = createAsyncThunk('posts/fetchSortPosts', async (id: string) => {
+  const { data } = await axios.get<Post[]>('/posts');
+  return data;
+});
+
 export const fetchLikePosts = createAsyncThunk('posts/fetchLikePosts', async (id: string) => {
   const { data } = await axios.get<Post>(`/posts/${id}`);
   return data;
@@ -54,6 +59,20 @@ const postSlice = createSlice({
       state.posts.items = action.payload;
     });
     builder.addCase(fetchPosts.rejected, (state) => {
+      state.posts.status = 'error';
+      state.posts.items = [];
+    });
+
+    // Получение отсортированных статей
+    builder.addCase(fetchSortPosts.pending, (state) => {
+      state.posts.status = 'loading';
+      state.posts.items = [];
+    });
+    builder.addCase(fetchSortPosts.fulfilled, (state, action: PayloadAction<Post[]>) => {
+      state.posts.status = 'success';
+      state.posts.items = action.payload;
+    });
+    builder.addCase(fetchSortPosts.rejected, (state) => {
       state.posts.status = 'error';
       state.posts.items = [];
     });

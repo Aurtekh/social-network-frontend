@@ -1,7 +1,7 @@
 import React from 'react';
 import { Post } from '../components/Post';
 import { useSelector } from 'react-redux';
-import { fetchPosts } from '../redux/slices/posts';
+import { fetchPosts, fetchSortPosts } from '../redux/slices/posts';
 import { RootState, useAppDispatch } from '../redux/store';
 import { selectIsAuth } from '../redux/slices/auth';
 import { PostSkeleton } from '../components/Post/Skeleton';
@@ -22,6 +22,10 @@ export const News: React.FC = () => {
     dispatch(fetchPosts());
     // eslint-disable-next-line
   }, []);
+
+  React.useEffect(() => {
+    dispatch(fetchSortPosts(`${navIndex}${postSortIndex}`));
+  }, [navIndex, postSortIndex]);
 
   if (!isAuth) {
     return <>загрузка1</>;
