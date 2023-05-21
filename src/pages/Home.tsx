@@ -74,6 +74,9 @@ export const Home: React.FC = () => {
   if (!isAuth) {
     return <>загрузка1</>;
   }
+
+  document.title = user.items.fullName;
+
   return (
     <div className="home">
       <div className="home__headerName">{user.items.fullName}</div>
