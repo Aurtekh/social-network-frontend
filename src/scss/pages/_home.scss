@@ -122,12 +122,16 @@
       height: 134px;
     }
   }
-
+  &__Message,
+  &__addFriend {
+    display: block;
+    color: #f0f9f8;
+    padding: 6px 0px;
+  }
   &__sendMessage,
   &__addFriend {
     cursor: pointer;
     background: #6383a9;
-    padding: 6px 0px;
     border: 6px solid #f0f0f0;
     color: #f0f9f8;
     transition: 0.1s;

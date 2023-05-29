@@ -31,6 +31,7 @@ export const Home: React.FC = () => {
   const { posts } = useSelector((state: RootState) => state.posts);
   const { userFriends } = useSelector((state: RootState) => state.users);
   const isPostsLoading = posts.status === 'loading';
+  const isUserLoading = user.status === 'loading';
 
   React.useEffect(() => {
     if (!isAuth) {
@@ -64,13 +65,14 @@ export const Home: React.FC = () => {
     }
   };
 
-  if (!idOtherPeople || !user.items) {
+  if (isUserLoading) {
     return <>загрузка</>;
   }
 
-  if (user.status === 'error') {
+  if (user.status === 'error' || !idOtherPeople || user.items === null) {
     return <NotFound />;
   }
+
   if (!isAuth) {
     return <>загрузка1</>;
   }
@@ -101,7 +103,11 @@ export const Home: React.FC = () => {
           </div>
           {!checkUser && (
             <>
-              <button className="home__sendMessage">Написать сообщение</button>
+              <button className="home__sendMessage">
+                <Link to={`/im/${idOtherPeople}`} className="home__Message">
+                  Написать сообщение{' '}
+                </Link>
+              </button>
               {checkFriends ? (
                 <button
                   className="home__addFriend"
@@ -119,7 +125,6 @@ export const Home: React.FC = () => {
               )}
             </>
           )}
-
           <div className="home__friends">Друзья</div>
           <div className="home__friends__count">{user.items.friends.length} друзей</div>
           <div className="home__friends__listWrapper">
