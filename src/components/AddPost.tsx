@@ -10,17 +10,20 @@ export const AddPost: React.FC = () => {
   const inputFileRef = React.useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = React.useState('');
 
-  const handleChangeFile = async (event: { target: { files: (string | Blob)[] } }) => {
+  async function handleChangeFile(event: React.ChangeEvent<HTMLInputElement>) {
     try {
       const formData = new FormData();
-      formData.append('image', event.target.files[0]);
+      if (event.target.files) {
+        formData.append('image', event.target.files[0]);
+      }
       const { data } = await axios.post('/upload', formData);
+      console.log(event);
       setImageUrl(data.url);
     } catch (err) {
       console.warn(err);
       alert('Ошибка при загрузке файла');
     }
-  };
+  }
   const onClickRemoveImage = () => {
     setImageUrl('');
   };
@@ -71,7 +74,7 @@ export const AddPost: React.FC = () => {
           Добавить фото
         </div>
       </div>
-      <input ref={inputFileRef} type="file" onChange={() => handleChangeFile} hidden />
+      <input ref={inputFileRef} type="file" onChange={(e) => handleChangeFile(e)} hidden />
       {imageUrl && (
         // <img className="imgUpload" src={`http://localhost:4444${imageUrl}`} alt="Uploaded" />
         <img

@@ -18,17 +18,19 @@ export const EditProfile: React.FC = () => {
   const [university, setuniversity] = React.useState(infoAboutMe.university);
   const [avatarUrl, setAvatarUrl] = React.useState(infoAboutMe.avatarUrl);
 
-  const handleChangeFile = async (event: { target: { files: (string | Blob)[] } }) => {
+  async function handleChangeFile(event: React.ChangeEvent<HTMLInputElement>) {
     try {
       const formData = new FormData();
-      formData.append('image', event.target.files[0]);
+      if (event.target.files) {
+        formData.append('image', event.target.files[0]);
+      }
       const { data } = await axios.post('/upload', formData);
       setAvatarUrl(data.url);
     } catch (err) {
       console.warn(err);
       alert('Ошибка при загрузке файла');
     }
-  };
+  }
 
   const onClickRemoveImage = () => {
     setAvatarUrl('');
@@ -136,7 +138,7 @@ export const EditProfile: React.FC = () => {
           </div>
         )}
       </div>
-      <input ref={inputFileRef} type="file" onChange={() => handleChangeFile} hidden />
+      <input ref={inputFileRef} type="file" onChange={(e) => handleChangeFile(e)} hidden />
       {avatarUrl && (
         <img
           className="imgUpload"

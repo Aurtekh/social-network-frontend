@@ -1,7 +1,7 @@
 import './scss/app.scss';
 import React from 'react';
 import MainLayout from './layouts/MainLayout';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import Friends from './pages/Friends';
 import { Home } from './pages/Home';
 import { Message } from './pages/Message';
@@ -16,9 +16,16 @@ import { useAppDispatch } from './redux/store';
 
 function App() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     dispatch(fetchAuthMe());
+  }, []);
+
+  React.useEffect(() => {
+    if (!window.localStorage.getItem('token')) {
+      navigate('/auth');
+    }
   }, []);
 
   return (

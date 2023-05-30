@@ -129,7 +129,8 @@ const authSlice = createSlice({
   },
 });
 
-export const selectIsAuth = (state: RootState) => Boolean(state.auth.data);
+export const selectIsAuth = (state: RootState) =>
+  state.auth.data.status !== 'loading' ? Boolean(state.auth.data._id !== '') : false;
 
 export const authReducer = authSlice.reducer;
 
