@@ -17,6 +17,7 @@ import { PostSkeleton } from '../components/Post/Skeleton';
 
 import deleteImgAvatar from '../assets/img/deletedImgAvatar.jpg';
 import noAvatar from '../assets/img/noavatar.jpg';
+import { SkeletonsHome } from '../components/Skeletons/SkeletonsHome';
 
 export const Home: React.FC = () => {
   const params = useParams();
@@ -66,7 +67,7 @@ export const Home: React.FC = () => {
   };
 
   if (isUserLoading) {
-    return <>загрузка</>;
+    return <SkeletonsHome />;
   }
 
   if (user.status === 'error' || !idOtherPeople || user.items === null) {
@@ -74,7 +75,7 @@ export const Home: React.FC = () => {
   }
 
   if (!isAuth) {
-    return <>загрузка1</>;
+    return <SkeletonsHome />;
   }
 
   document.title = user.items.fullName;

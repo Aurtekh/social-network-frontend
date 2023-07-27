@@ -5,6 +5,7 @@ import { fetchPosts, fetchSortPosts } from '../redux/slices/posts';
 import { RootState, useAppDispatch } from '../redux/store';
 import { selectIsAuth } from '../redux/slices/auth';
 import { PostSkeleton } from '../components/Post/Skeleton';
+import { SkeletonsNews } from '../components/Skeletons/SkeletonsNews';
 
 export const News: React.FC = () => {
   const isAuth = useSelector(selectIsAuth);
@@ -28,10 +29,10 @@ export const News: React.FC = () => {
   }, [navIndex, postSortIndex]);
 
   if (!isAuth) {
-    return <>загрузка1</>;
+    return <SkeletonsNews />;
   }
   if (!posts) {
-    return <>загрузка1</>;
+    return <SkeletonsNews />;
   }
   return (
     <div className="news">

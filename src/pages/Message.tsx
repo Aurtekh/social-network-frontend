@@ -11,6 +11,7 @@ import noAvatar from '../assets/img/noavatar.jpg';
 import { NotFound } from './NotFound';
 import { TextField } from '@mui/material';
 import { fetchUserById } from '../redux/slices/users';
+import { SkeletonsMessage } from '../components/Skeletons/SkeletonsMessage';
 
 export const Message: React.FC = () => {
   const [tabIndex1, setTabIndex1] = React.useState('0');
@@ -81,19 +82,12 @@ export const Message: React.FC = () => {
   };
 
   if (!id && dialogs.items.length === 0) {
-    return <>У вас нет диалогов</>;
+    return <SkeletonsMessage />;
   }
-  // if (!id && !dialogs) {
-  //   return <>загрузка диагов</>;
+
+  // if (!isAuth) {
+  //   return <SkeletonsMessage />;
   // }
-
-  // if (messages.status === 'error') {
-  //   return <NotFound />;
-  // }  fix rendering
-
-  if (!isAuth) {
-    return <>загрузка1</>;
-  }
 
   if (id && user.status === 'error') {
     return <NotFound />;

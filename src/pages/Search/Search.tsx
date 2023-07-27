@@ -53,7 +53,7 @@ export const Search: React.FC = () => {
   };
 
   if (isInfoMeLoading) {
-    return <div>загрузка</div>;
+    return <div>загрузка информации о пользователе</div>;
   }
   return (
     <div className="search">
