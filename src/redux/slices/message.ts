@@ -12,6 +12,11 @@ export const fetchMessage = createAsyncThunk('dialogs/fetchMessage', async (id: 
   return data;
 });
 
+export const fetchNewMessage = createAsyncThunk('dialogs/fetchNewMessage', async (id: string) => {
+  const { data } = await axios.get<Message[]>(`/dialogs/new/${id}`);
+  return data;
+});
+
 export type Message = {
   _id: string;
   text: string;
@@ -75,6 +80,22 @@ const messagesSlice = createSlice({
       state.messages.items = action.payload;
     });
     builder.addCase(fetchMessage.rejected, (state) => {
+      state.messages.status = 'error';
+      state.messages.items = [];
+    });
+
+    // Получение новых сообщений long polling
+    // builder.addCase(fetchNewMessage.pending, (state) => {
+    //   state.messages.status = 'loading';
+    //   state.messages.items = [];
+    // });
+    builder.addCase(fetchNewMessage.fulfilled, (state, action: PayloadAction<Message[]>) => {
+      if (state.messages.items.length !== action.payload.length) {
+        state.messages.items = action.payload;
+        state.messages.status = 'success';
+      }
+    });
+    builder.addCase(fetchNewMessage.rejected, (state) => {
       state.messages.status = 'error';
       state.messages.items = [];
     });

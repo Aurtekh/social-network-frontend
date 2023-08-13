@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import { fetchDialogs, fetchMessage } from '../redux/slices/message';
+import { Link, useParams } from 'react-router-dom';
+import { fetchDialogs, fetchMessage, fetchNewMessage } from '../redux/slices/message';
 import { RootState, useAppDispatch } from '../redux/store';
 import { selectIsAuth } from '../redux/slices/auth';
 import { useSelector } from 'react-redux';
@@ -47,22 +47,35 @@ export const Message: React.FC = () => {
   };
 
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const isMessagesLoading = messages.status === 'loading';
-  const isDialogsLoading = dialogs.status === 'loading';
-
   const { id } = useParams();
 
   React.useEffect(() => {
-    document.title = 'Мессенджер';
-    if (id) {
-      dispatch(fetchMessage(id));
-      dispatch(fetchUserById(id));
-      setTabIndex1('1');
-    }
+    const div = document.querySelector('.message__listWrapper');
 
-    dispatch(fetchDialogs());
+    if (div) {
+      div.scrollTo({
+        top: 9999,
+      });
+    }
+  }, [messages]);
+  React.useEffect(() => {
+    document.title = 'Мессенджер';
+    // console.log('я cмонтировался');
+    const interval = setInterval(() => {
+      if (id) {
+        dispatch(fetchNewMessage(id));
+        // console.log('я отработал', id);
+      } else {
+        // console.log('я не отработал, нет id', id);
+      }
+    }, 10000);
+
+    return () => {
+      clearInterval(interval);
+      // console.log('я размонтировался');
+    };
   }, []);
 
   React.useEffect(() => {
@@ -77,7 +90,6 @@ export const Message: React.FC = () => {
   }, [id]);
 
   const moveToAllDialogs = () => {
-    navigate('/im');
     setTabIndex1('0');
   };
 
@@ -92,7 +104,6 @@ export const Message: React.FC = () => {
   if (id && user.status === 'error') {
     return <NotFound />;
   }
-
   return (
     <div className="message">
       <div className="friends__container">
@@ -107,13 +118,7 @@ export const Message: React.FC = () => {
       </div>
       <div className="line"></div>
       <div className="friends__containerSearch">
-        {/* <input className="friends__search" placeholder="Начните вводить имя друга"></input> */}
-        {/* <button className="friends__button">Найти друзей</button> */}
-        {!id ? (
-          <div>
-            Ваши диалоги: <span className="boldBlut">{dialogs.items.length || 0}</span>
-          </div>
-        ) : !isMessagesLoading && messages.items.length !== 0 ? (
+        {!isMessagesLoading && messages.items.length !== 0 ? (
           <div className="message__dialogWithWhom">
             {allInfoMe._id === messages.items[0].recipient._id
               ? messages.items[0].sender.fullName
@@ -125,148 +130,103 @@ export const Message: React.FC = () => {
       </div>
       <div className="line-gray"></div>
       <div>
-        {!id ? (
-          !isDialogsLoading &&
-          dialogs.items.map((obj, index) => {
-            return (
-              <div className="message__dialogBtn" onClick={() => setTabIndex1('1')} key={index}>
-                <Link
-                  to={`/im/${
-                    allInfoMe._id === obj.recipient[0]._id
-                      ? obj.sender[0]._id
-                      : obj.recipient[0]._id
-                  }`}>
-                  <div className="message__wrapper">
-                    <img
-                      className="message__avatar"
-                      src={
-                        allInfoMe._id === obj.recipient[0]._id
-                          ? obj.sender[0].avatarUrl !== ''
-                            ? `${process.env.REACT_APP_API_URL}${obj.sender[0].avatarUrl}`
+        <>
+          {!isMessagesLoading && id && messages.items.length === 0 ? (
+            <div className="message__listWrapper">
+              У вас еще нет истории сообщений. Отправьте сообщение, будьте первым!
+            </div>
+          ) : (
+            <div className="message__listWrapper">
+              {isMessagesLoading ? (
+                <div>Загрузка сообщений...</div>
+              ) : (
+                messages.items.map((obj, index) => {
+                  return (
+                    <div key={index} className="message__listMessages">
+                      <img
+                        className="message__avatar"
+                        src={
+                          obj.sender.avatarUrl !== ''
+                            ? `${process.env.REACT_APP_API_URL}${obj.sender.avatarUrl}`
                             : noAvatar
-                          : obj.recipient[0].avatarUrl !== ''
-                          ? `${process.env.REACT_APP_API_URL}${obj.recipient[0].avatarUrl}`
-                          : noAvatar
-                      }
-                      onError={(e) => {
-                        const { target } = e;
-                        if (target instanceof HTMLImageElement) {
-                          target.onerror = null;
-                          target.src = deleteImgAvatar;
                         }
-                      }}
-                      alt="avatar"></img>
-                    <div className="friends__name">
-                      {allInfoMe._id === obj.recipient[0]._id
-                        ? obj.sender[0].fullName
-                        : obj.recipient[0].fullName}
-                    </div>
-                    <div className="message__text">{obj.text}</div>
-                  </div>
-                  <div className="line-gray"></div>
-                </Link>
-              </div>
-            );
-          })
-        ) : (
-          <>
-            {!isMessagesLoading && id && messages.items.length === 0 ? (
-              <div className="message__listWrapper">
-                У вас еще нет истории сообщений. Отправьте сообщение, будьте первым!
-              </div>
-            ) : (
-              <div className="message__listWrapper">
-                {isMessagesLoading ? (
-                  <div>Загрузка сообщений...</div>
-                ) : (
-                  messages.items.map((obj, index) => {
-                    return (
-                      <div key={index} className="message__listMessages">
-                        <img
-                          className="message__avatar"
-                          src={
-                            obj.sender.avatarUrl !== ''
-                              ? `${process.env.REACT_APP_API_URL}${obj.sender.avatarUrl}`
-                              : noAvatar
+                        onError={(e) => {
+                          const { target } = e;
+                          if (target instanceof HTMLImageElement) {
+                            target.onerror = null;
+                            target.src = deleteImgAvatar;
                           }
-                          onError={(e) => {
-                            const { target } = e;
-                            if (target instanceof HTMLImageElement) {
-                              target.onerror = null;
-                              target.src = deleteImgAvatar;
-                            }
-                          }}
-                          alt="avatar"></img>
-                        <div className="message__flexWrapper">
-                          <div className="friends__name">{obj.sender.fullName}</div>
-                          <div>{obj.text}</div>
-                        </div>
-                        <div>{obj.date}</div>
+                        }}
+                        alt="avatar"></img>
+                      <div className="message__flexWrapper">
+                        <div className="friends__name">{obj.sender.fullName}</div>
+                        <div>{obj.text}</div>
                       </div>
-                    );
-                  })
-                )}
-              </div>
-            )}
-            <div className="line-gray"></div>
-            <div className="message__sendMessageWrapper">
-              {!isInfoMeLoading && allInfoMe && (
-                <img
-                  className="message__avatarSmall"
-                  src={
-                    allInfoMe.avatarUrl !== ''
-                      ? `${process.env.REACT_APP_API_URL}${allInfoMe.avatarUrl}`
-                      : noAvatar
-                  }
-                  onError={(e) => {
-                    const { target } = e;
-                    if (target instanceof HTMLImageElement) {
-                      target.onerror = null;
-                      target.src = deleteImgAvatar;
-                    }
-                  }}
-                  alt="avatar"></img>
-              )}
-
-              <div className="message__inputWrapper">
-                <TextField
-                  value={text}
-                  onChange={(e) => setTextValue(e.target.value)}
-                  multiline
-                  rows={2}
-                  // error={Boolean(errors.fullName?.message)}
-                  // helperText={errors.fullName?.message}
-                  // {...register('fullName', { required: 'Что у вас нового?' })}
-                  type="text"
-                  className="search__searchField"
-                  placeholder="Введите Ваше сообщение..."
-                  fullWidth
-                />
-                <button className="message__BtnBlueSubmit" onClick={onSubmit}>
-                  Отправить
-                </button>
-              </div>
-
-              {!isUserLoading && user.items && (
-                <img
-                  className="message__avatarSmall"
-                  src={
-                    user.items.avatarUrl !== ''
-                      ? `${process.env.REACT_APP_API_URL}${user.items.avatarUrl}`
-                      : noAvatar
-                  }
-                  onError={(e) => {
-                    const { target } = e;
-                    if (target instanceof HTMLImageElement) {
-                      target.onerror = null;
-                      target.src = deleteImgAvatar;
-                    }
-                  }}
-                  alt="avatar"></img>
+                      <div>{obj.date}</div>
+                    </div>
+                  );
+                })
               )}
             </div>
-          </>
-        )}
+          )}
+          <div className="line-gray"></div>
+          <div className="message__sendMessageWrapper">
+            {!isInfoMeLoading && allInfoMe && (
+              <img
+                className="message__avatarSmall"
+                src={
+                  allInfoMe.avatarUrl !== ''
+                    ? `${process.env.REACT_APP_API_URL}${allInfoMe.avatarUrl}`
+                    : noAvatar
+                }
+                onError={(e) => {
+                  const { target } = e;
+                  if (target instanceof HTMLImageElement) {
+                    target.onerror = null;
+                    target.src = deleteImgAvatar;
+                  }
+                }}
+                alt="avatar"></img>
+            )}
+
+            <div className="message__inputWrapper">
+              <TextField
+                value={text}
+                onChange={(e) => setTextValue(e.target.value)}
+                multiline
+                rows={2}
+                // error={Boolean(errors.fullName?.message)}
+                // helperText={errors.fullName?.message}
+                // {...register('fullName', { required: 'Что у вас нового?' })}
+                type="text"
+                className="search__searchField"
+                placeholder="Введите Ваше сообщение..."
+                fullWidth
+              />
+              <button className="message__BtnBlueSubmit" onClick={onSubmit}>
+                Отправить
+              </button>
+            </div>
+
+            {!isUserLoading && user.items && (
+              <img
+                className="message__avatarSmall"
+                src={
+                  user.items.avatarUrl !== ''
+                    ? `${process.env.REACT_APP_API_URL}${user.items.avatarUrl}`
+                    : noAvatar
+                }
+                onError={(e) => {
+                  const { target } = e;
+                  if (target instanceof HTMLImageElement) {
+                    target.onerror = null;
+                    target.src = deleteImgAvatar;
+                  }
+                }}
+                alt="avatar"></img>
+            )}
+          </div>
+        </>
       </div>
     </div>
   );

@@ -13,6 +13,7 @@ import { Auth } from './pages/Auth';
 import { fetchAuthMe } from './redux/slices/auth';
 import { NotFound } from './pages/NotFound';
 import { useAppDispatch } from './redux/store';
+import { Dialogs } from './pages/Dialogs';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -33,7 +34,7 @@ function App() {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route path="/:id" element={<Home />} />
-          <Route path="/im" element={<Message />} />
+          <Route path="/im" element={<Dialogs />} />
           <Route path="/im/:id" element={<Message />} />
           <Route path="/friends" element={<Friends />} />
           <Route path="/news" element={<News />} />
